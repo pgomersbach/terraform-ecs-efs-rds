@@ -1,5 +1,3 @@
-variable "vpc_id" {}
-
 data "aws_vpc" "mn-vpc" {
   id = "${var.vpc_id}"
 }
@@ -39,9 +37,5 @@ resource "aws_security_group" "demo-vpc-security-group" {
     protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
-}
-
-output "security-group-id" {
-  value = aws_security_group.demo-vpc-security-group.id
 }
 

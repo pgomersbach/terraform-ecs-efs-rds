@@ -13,20 +13,20 @@ variable "subnet-id-2" {
 variable "security-group-id" {
 }
 
-variable "rds-security-group" {
-}
+# variable "rds-security-group" {
+# }
 
-variable "rds-url" {
-}
+# variable "rds-url" {
+# }
 
-variable "rds-username" {
-}
+# variable "rds-username" {
+# }
 
-variable "rds-password" {
-}
+# variable "rds-password" {
+# }
 
-variable "rds-dbname" {
-}
+# variable "rds-dbname" {
+# }
 
 variable "efs-subnet-ids" {
 }

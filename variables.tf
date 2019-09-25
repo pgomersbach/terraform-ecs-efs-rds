@@ -5,8 +5,27 @@ variable "ecs-cluster-name" {
 
 variable "ecs-key-pair-name" {
   description = "The name for the cluster."
-  default     = "pgomersbach"
+  default     = "mn-paulg"
 }
+
+### vpc setting ###
+
+variable "vpc_security-group-id" {
+  default = "sg-0497e6bcacf47182b"
+}
+
+variable "vpc_id" {
+  default = "vpc-03b68ef1c9da38682"
+}
+
+variable "vpc_subnet1-id" {
+  default = "subnet-0d43a4b25d39ebca6"
+}
+
+variable "vpc_subnet2-id" {
+  default = "subnet-04eb7646079f3751a"
+}
+
 
 /*====
 environment specific variables

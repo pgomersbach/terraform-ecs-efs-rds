@@ -1,0 +1,25 @@
+[
+    {
+        "name": "wordpress-app",
+        "image": "wordpress",
+        "cpu": 10,
+        "memory": 300,
+        "essential": true,
+        "MountPoints": [
+            {
+                "ContainerPath": "/var/www/html",
+                "SourceVolume": "efs-wordpress-data"
+            }
+        ],
+        "portMappings": [
+             {
+                 "hostPort": 80,
+                 "containerPort": 80,
+                 "protocol": "tcp"
+             }
+         ],
+        "links": [],
+        "command": [],
+        "entryPoint": []
+    }
+]

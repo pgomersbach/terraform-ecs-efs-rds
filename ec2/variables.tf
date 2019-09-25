@@ -14,8 +14,8 @@ variable "subnet-id-2" {
 variable "security-group-id" {
 }
 
-variable "rds-security-group" {
-}
+# variable "rds-security-group" {
+# }
 
 variable "ecs-cluster-name" {
 }
@@ -68,8 +68,8 @@ variable "launch-configuration-name" {
 }
 
 variable "image-id" {
-  description = "The name for the autoscaling group for the cluster."
-  default     = "ami-016b7db231a5906da"
+  description = "The name of teh ami for the cluster."
+  default     = "ami-0497efcd305aaa21b"
 }
 
 variable "instance-type" {
