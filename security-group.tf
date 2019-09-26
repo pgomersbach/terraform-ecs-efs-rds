@@ -23,6 +23,14 @@ resource "aws_security_group" "demo-vpc-security-group" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
+  // EFS
+  ingress {
+    from_port   = 2049
+    to_port     = 2049
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
   // SSH
   ingress {
     from_port   = 22
