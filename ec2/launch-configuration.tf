@@ -5,7 +5,7 @@
   iam_instance_profile        = var.ecs-instance-profile-name
 #  security_groups             = [var.security-group-id, var.rds-security-group]
   security_groups             = [var.security-group-id]
-  associate_public_ip_address = "true"
+  associate_public_ip_address = "false"
   key_name                    = var.ecs-key-pair-name
   user_data                   = template_file.ecs-launch-configuration-user-data.rendered
 }
@@ -33,7 +33,7 @@ resource "aws_launch_configuration" "ecs-launch-configuration" {
   iam_instance_profile        = var.ecs-instance-profile-name
 #  security_groups             = [var.security-group-id, var.rds-security-group]
   security_groups             = [var.security-group-id]
-  associate_public_ip_address = "true"
+  associate_public_ip_address = "false"
   key_name                    = var.ecs-key-pair-name
   user_data                   = "${data.template_file.ecs-launch-configuration-user-data.rendered}"
 }
