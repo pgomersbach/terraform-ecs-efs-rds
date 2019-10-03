@@ -1,0 +1,8 @@
+# ok add plugin rex-ray
+# ok verwijder efs
+aparte module voor taskdef /task / service
+data voor subnets
+name resources from env/name
+add tags
+install elk stack
+change README

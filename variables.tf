@@ -1,6 +1,15 @@
+variable "aws-profile-name" {
+  description = "The profile for AWS auth."
+  default     = "mn-d01-cd"
+}
+
 variable "ecs-cluster-name" {
   description = "The name for the cluster."
   default     = "tf-ecs-cluster"
+}
+variable "ecs-region-name" {
+  description = "Aws region"
+  default     = "eu-central-1"
 }
 
 variable "ecs-key-pair-name" {
@@ -24,6 +33,10 @@ variable "vpc_subnet1-id" {
 
 variable "vpc_subnet2-id" {
   default = "subnet-04eb7646079f3751a"
+}
+
+variable "vpc_subnet3-id" {
+  default = "subnet-0b0f45669fa1a89ae"
 }
 
 

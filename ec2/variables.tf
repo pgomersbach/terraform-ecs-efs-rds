@@ -11,13 +11,16 @@ variable "subnet-id-1" {
 variable "subnet-id-2" {
 }
 
+variable "subnet-id-3" {
+}
+
 variable "security-group-id" {
 }
 
-# variable "rds-security-group" {
-# }
-
 variable "ecs-cluster-name" {
+}
+
+variable "ecs-region-name" {
 }
 
 variable "ecs-instance-role-name" {
@@ -39,22 +42,22 @@ variable "autoscaling-group-name" {
 }
 
 variable "max-instance-size" {
-  description = "The name for the autoscaling group for the cluster."
+  description = "The max number of instances in autoscaling group."
   default     = 4
 }
 
 variable "min-instance-size" {
-  description = "The name for the autoscaling group for the cluster."
+  description = "The min number of instances in autoscaling group."
   default     = 1
 }
 
 variable "desired-capacity" {
-  description = "The name for the autoscaling group for the cluster."
+  description = "The desired number of instances in autoscaling group."
   default     = 1
 }
 
 variable "health-check-grace-period" {
-  description = "The name for the autoscaling group for the cluster."
+  description = "The health-check-grace-period for the autoscaling group."
   default     = 300
 }
 
@@ -67,13 +70,8 @@ variable "launch-configuration-name" {
   default     = "demo-ecs-launch-configuration"
 }
 
-variable "image-id" {
-  description = "The name of teh ami for the cluster."
-  default     = "ami-0497efcd305aaa21b"
-}
-
 variable "instance-type" {
-  description = "The name for the autoscaling group for the cluster."
+  description = "The instance type for the autoscaling group."
   default     = "t2.medium"
 }
 

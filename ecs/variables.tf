@@ -1,5 +1,5 @@
-variable "ecs-target-group-arn" {
-}
+#variable "ecs-target-group-arn" {
+#}
 
 variable "vpc-id" {
 }
@@ -10,8 +10,11 @@ variable "subnet-id-1" {
 variable "subnet-id-2" {
 }
 
-variable "security-group-id" {
+variable "subnet-id-3" {
 }
+
+#variable "security-group-id" {
+#}
 
 # variable "rds-security-group" {
 # }
@@ -28,8 +31,8 @@ variable "security-group-id" {
 # variable "rds-dbname" {
 # }
 
-variable "efs-subnet-ids" {
-}
+# variable "efs-subnet-ids" {
+# }
 
 variable "ecs-alb-target" {
   default = "demo-ecs-target-group"
@@ -47,18 +50,18 @@ variable "ecs-service-name" {
   default = "demo-ecs-service"
 }
 
-variable "ecs-load-balancer-name" {
-  default = "demo-ecs-load-balancer"
-}
+# variable "ecs-load-balancer-name" {
+#  default = "demo-ecs-load-balancer"
+# }
 
 //----------------------------------------------------------------------
 // Application Load Balancer Variables
 //----------------------------------------------------------------------
 
-variable "load-balancer-name" {
-  description = "The name for the autoscaling group for the cluster."
-  default     = "demo-ecs-load-balancer"
-}
+#variable "load-balancer-name" {
+#  description = "The name for the autoscaling group for the cluster."
+#  default     = "demo-ecs-load-balancer"
+#}
 
 variable "target-group-name" {
   description = "The name for the autoscaling group for the cluster."

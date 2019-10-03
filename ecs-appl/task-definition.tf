@@ -1,4 +1,3 @@
-
 resource "aws_ecs_task_definition" "demo-sample-definition" {
   family = "demo-sample-definition"
   container_definitions = data.template_file.demo-template.rendered
@@ -7,4 +6,3 @@ resource "aws_ecs_task_definition" "demo-sample-definition" {
     host_path = "/mnt/efs/wordpress"
   }
 }
-
