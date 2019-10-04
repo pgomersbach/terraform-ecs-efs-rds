@@ -13,8 +13,8 @@ variable "subnet-id-2" {
 variable "subnet-id-3" {
 }
 
-#variable "security-group-id" {
-#}
+variable "security-group-id" {
+}
 
 # variable "rds-security-group" {
 # }
@@ -50,18 +50,18 @@ variable "ecs-service-name" {
   default = "demo-ecs-service"
 }
 
-# variable "ecs-load-balancer-name" {
+#variable "ecs-load-balancer-name" {
 #  default = "demo-ecs-load-balancer"
-# }
+#}
 
 //----------------------------------------------------------------------
 // Application Load Balancer Variables
 //----------------------------------------------------------------------
 
-#variable "load-balancer-name" {
-#  description = "The name for the autoscaling group for the cluster."
-#  default     = "demo-ecs-load-balancer"
-#}
+variable "load-balancer-name" {
+  description = "The name for the autoscaling group for the cluster."
+  default     = "demo-ecs-load-balancer"
+}
 
 variable "target-group-name" {
   description = "The name for the autoscaling group for the cluster."

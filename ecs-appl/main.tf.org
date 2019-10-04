@@ -1,8 +1,3 @@
-resource "aws_alb" "ecs-load-balancer" {
-  name            = var.load-balancer-name
-  security_groups = [var.security-group-id]
-  subnets         = [var.subnet-id-1, var.subnet-id-2,  var.subnet-id-3]
-}
 
 resource "aws_alb_target_group" "ecs-target_group" {
   name     = var.target-group-name

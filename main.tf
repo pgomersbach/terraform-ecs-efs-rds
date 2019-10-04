@@ -27,7 +27,7 @@ module "ec2" {
 module "ecs" {
   source               = "./ecs"
   vpc-id               = var.vpc_id
-  # security-group-id    = var.vpc_security-group-id
+  security-group-id    = var.vpc_security-group-id
   subnet-id-1          = var.vpc_subnet1-id
   subnet-id-2          = var.vpc_subnet2-id
   subnet-id-3          = var.vpc_subnet3-id
