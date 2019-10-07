@@ -6,4 +6,7 @@ output "ecs-load-balancer-name" {
   value = aws_alb.ecs-load-balancer.name
 }
 
+output "ecs-load-balancer-arn" {
+  value = aws_alb.ecs-load-balancer.arn
+}
 

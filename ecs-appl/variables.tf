@@ -1,3 +1,5 @@
+variable "aws_alb_arn" {}
+
 variable "ecs-target-group-arn" {}
 
 variable "aws_ecs_cluster_id" {}

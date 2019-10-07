@@ -35,9 +35,13 @@ module "ecs" {
   ecs-service-role-arn = module.iam.ecs-service-role-arn
 }
 
-/*
+
 module "ecs-appl" {
-  source              = "./ecs-appl"
+  source               = "./ecs-appl"
   ecs-target-group-arn = module.ecs-appl.ecs-target-group-arn
+  ecs-service-name     = "myservice"
+  aws_ecs_cluster_id   = module.ecs.demo-ecs-cluster_id
+  ecs-service-role-arn = module.iam.ecs-service-role-arn
+  aws_alb_arn          = module.ecs.ecs-load-balancer-arn
 }
-*/
+

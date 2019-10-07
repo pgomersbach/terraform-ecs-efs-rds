@@ -4,7 +4,6 @@ data "aws_ami" "ecs_ami" {
 
   filter {
     name   = "name"
-    # values = ["amzn-ami-*-amazon-ecs-optimized"] # amzn2-ami-ecs-hvm-2.0.20190913-x86_64-ebs
     values = ["amzn2-ami-ecs-hvm-2.0.*-x86_64-ebs"]
   }
 
@@ -28,7 +27,6 @@ data "template_file" "ecs-launch-configuration-user-data" {
 }
 
 resource "aws_launch_configuration" "ecs-launch-configuration" {
-#  image_id                    = var.image-id
   image_id                    = "${data.aws_ami.ecs_ami.image_id}"
   instance_type               = var.instance-type
   iam_instance_profile        = var.ecs-instance-profile-name
@@ -36,6 +34,12 @@ resource "aws_launch_configuration" "ecs-launch-configuration" {
   associate_public_ip_address = "false"
   key_name                    = var.ecs-key-pair-name
   user_data                   = "${data.template_file.ecs-launch-configuration-user-data.rendered}"
+
+  root_block_device {
+    volume_type = "standard"
+    volume_size = 100
+    delete_on_termination = true
+  }
 
   lifecycle {
     create_before_destroy = true

@@ -1,8 +1,10 @@
+/*
 resource "aws_alb" "ecs-load-balancer" {
   name            = var.load-balancer-name
   security_groups = [var.security-group-id]
   subnets         = [var.subnet-id-1, var.subnet-id-2, var.subnet-id-3]
 }
+*/
 
 resource "aws_alb_target_group" "ecs-target_group" {
   name     = var.target-group-name
@@ -23,7 +25,7 @@ resource "aws_alb_target_group" "ecs-target_group" {
 }
 
 resource "aws_alb_listener" "alb-listener" {
-  load_balancer_arn = aws_alb.ecs-load-balancer.arn
+  load_balancer_arn = var.aws_alb_arn
   port              = "80"
   protocol          = "HTTP"
 
