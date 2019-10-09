@@ -1,38 +1,17 @@
-#variable "ecs-target-group-arn" {
+#variable "vpc-id" {
 #}
 
-variable "vpc-id" {
-}
+#variable "subnet-ids" {
+#}
 
-variable "subnet-id-1" {
-}
+#variable "subnet-id-1" {
+#}
 
-variable "subnet-id-2" {
-}
+#variable "subnet-id-2" {
+#}
 
-variable "subnet-id-3" {
-}
-
-variable "security-group-id" {
-}
-
-# variable "rds-security-group" {
-# }
-
-# variable "rds-url" {
-# }
-
-# variable "rds-username" {
-# }
-
-# variable "rds-password" {
-# }
-
-# variable "rds-dbname" {
-# }
-
-# variable "efs-subnet-ids" {
-# }
+#variable "subnet-id-3" {
+#}
 
 variable "ecs-alb-target" {
   default = "demo-ecs-target-group"

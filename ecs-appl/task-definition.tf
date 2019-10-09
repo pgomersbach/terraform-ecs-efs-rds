@@ -1,8 +1,17 @@
-resource "aws_ecs_task_definition" "demo-sample-definition" {
+resource "aws_ecs_task_definition" "apache-task" {
   family = "demo-sample-definition"
-  container_definitions = data.template_file.demo-template.rendered
+  cpu    = 512
+  memory = 1024
+  requires_compatibilities = ["EC2"]
+  network_mode = "bridge"
+  container_definitions = data.template_file.task-template.rendered
+
   volume {
-    name      = "efs-wordpress-data"
-    host_path = "/mnt/efs/wordpress"
+    name      = "rexray-efs-vol"
+    docker_volume_configuration {
+      scope         = "shared"
+      autoprovision = true
+      driver        = "rexray/efs"
+    }
   }
 }

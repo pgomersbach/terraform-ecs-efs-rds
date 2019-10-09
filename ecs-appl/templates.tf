@@ -1,5 +1,5 @@
-data "template_file" "demo-template" {
-  template = file("./ecs-appl/jenkins.json")
+data "template_file" "task-template" {
+  template = file("./ecs-appl/${var.ecs-service-name}.json")
 
 /*  vars = {
     db_host     = var.rds-url
