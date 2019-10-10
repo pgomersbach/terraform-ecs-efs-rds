@@ -6,38 +6,38 @@
                 "awslogs-create-group": "true",
                 "awslogs-group": "ecslogs",
                 "awslogs-region": "eu-central-1",
-                "awslogs-stream-prefix": "apache"
+                "awslogs-stream-prefix": "${ecs-service-name}"
             }
         },
         "portMappings": [
            {
-                "containerPort": 80,
+                "containerPort": ${port},
                 "protocol": "tcp"
             }
         ],
         "mountPoints": [
             {
-                "containerPath": "/var/www/",
-                "sourceVolume": "rexray-efs-vol"
+                "containerPath": "${container-path}",
+                "sourceVolume": "rexray-${storage-type}-vol"
             }
         ],
-        "image": "tiffanyfay/space:apache",
+        "image": "${image}",
         "essential": true,
-        "name": "apache-app",
-        "memory": 512,
-        "family": "rexray-efs",
+        "name": "${ecs-service-name}",
+        "memory": ${memory},
+        "family": "rexray-${storage-type}",
         "networkMode": "bridge",
         "requiresCompatibilities": [
             "EC2"
         ],
-        "cpu": 512,
+        "cpu": ${cpu},
         "volumes": [
             {
-                "name": "rexray-efs-vol",
+                "name": "/rexray-${storage-type}-vol",
                 "dockerVolumeConfiguration": {
                     "autoprovision": true,
                     "scope": "shared",
-                    "driver": "rexray/efs"
+                    "driver": "rexray/${storage-type}"
                 }
             }
         ]

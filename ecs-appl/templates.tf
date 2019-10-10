@@ -1,12 +1,14 @@
 data "template_file" "task-template" {
-  template = file("./ecs-appl/${var.ecs-service-name}.json")
+  template = file("./ecs-appl/default.json")
 
-/*  vars = {
-    db_host     = var.rds-url
-    db_name     = var.rds-dbname
-    db_user     = var.rds-username
-    db_password = var.rds-password
+  vars = {
+    ecs-service-name = "${var.ecs-service-name}"
+    image            = "${var.image}"
+    port             = "${var.lb-port}"
+    memory           = "${var.memory}"
+    cpu              = "${var.cpu}"
+    container-path   = "${var.container-path}"
+    storage-type     = "${var.storage-type}"
   }
-*/
 }
 

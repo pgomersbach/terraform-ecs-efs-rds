@@ -1,17 +1,17 @@
-resource "aws_ecs_task_definition" "apache-task" {
-  family = "demo-sample-definition"
-  cpu    = 512
-  memory = 1024
+resource "aws_ecs_task_definition" "my-task" {
+  family = "${var.ecs-service-name}-task"
+  cpu    = var.cpu
+  memory = var.memory
   requires_compatibilities = ["EC2"]
   network_mode = "bridge"
   container_definitions = data.template_file.task-template.rendered
 
   volume {
-    name      = "rexray-efs-vol"
+    name      = "rexray-${var.storage-type}-vol"
     docker_volume_configuration {
       scope         = "shared"
       autoprovision = true
-      driver        = "rexray/efs"
+      driver        = "rexray/${var.storage-type}"
     }
   }
 }

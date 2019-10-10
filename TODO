@@ -8,15 +8,16 @@
 # data source voor subnets
 # data source voor vpc id
 # subnets als array
-taak met params. port, taak naam, mem, cpu
+# storage ebs / efs aan ecs-appl module
+# taak met params. image, port, taak naam, mem, cpu
 name resources from env/name
-var voor container name
 toevoegen tags
 output zinvolle info
 modules herbruikbaar maken
 verwijder mount target als destroy optie
 r53 aan service toevoegen
 add remote state
+gebruik workspaces
 install elk stack
 change README
 test loadbalancer vanuit mn

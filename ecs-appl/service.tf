@@ -1,5 +1,5 @@
 resource "aws_alb" "ecs-load-balancer" {
-  name            = var.load-balancer-name
+  name            = "alb-${var.ecs-service-name}"
   security_groups = [ aws_security_group.lb-security-group.id ]
   subnets         = var.subnet-ids
 }
@@ -26,8 +26,8 @@ resource "aws_security_group" "lb-security-group" {
 }
 
 resource "aws_alb_target_group" "ecs-target-group" {
-  name        = var.target-group-name
-  port        = "80"
+  name        = "tg-${var.ecs-service-name}"
+  port        = var.lb-port
   protocol    = "HTTP"
   vpc_id      = var.vpc-id
 
@@ -44,7 +44,7 @@ resource "aws_alb_target_group" "ecs-target-group" {
 
 resource "aws_alb_listener" "alb-listener" {
   load_balancer_arn = aws_alb.ecs-load-balancer.arn
-  port              = "80"
+  port              = var.lb-port
   protocol          = "HTTP"
 
   default_action {
@@ -56,20 +56,24 @@ resource "aws_alb_listener" "alb-listener" {
 resource "aws_ecs_service" "demo-ecs-service" {
   name                              = var.ecs-service-name
   cluster                           = var.aws_ecs_cluster_id
-  task_definition                   = aws_ecs_task_definition.apache-task.arn
+  task_definition                   = aws_ecs_task_definition.my-task.arn
   desired_count                     = 1
-  health_check_grace_period_seconds = 60
-  depends_on                        = [aws_alb_listener.alb-listener]
+  scheduling_strategy               = var.service-sched-strategy
+  health_check_grace_period_seconds = 10
+  depends_on                        = [ aws_alb_listener.alb-listener ]
 
   load_balancer {
     target_group_arn = var.ecs-target-group-arn
-    container_port   = 80
-    container_name   = "apache-app"
+    container_port   = var.lb-port
+    container_name   = var.ecs-service-name
   }
 
+/*
   ordered_placement_strategy {
     type  = "spread"
     field = "attribute:ecs.availability-zone"
   }
+*/
+
 }
 

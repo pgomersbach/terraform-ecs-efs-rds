@@ -14,7 +14,7 @@ set -x
 
 # install the Docker rexray volume plugins
 docker plugin install rexray/ebs REXRAY_PREEMPT=true EBS_REGION=${ecs-region-name} --grant-all-permissions
-docker plugin install rexray/efs --grant-all-permissions
+docker plugin install rexray/efs REXRAY_PREEMPT=true --grant-all-permissions
 
 #restart the ECS agent
 docker restart ecs-agent

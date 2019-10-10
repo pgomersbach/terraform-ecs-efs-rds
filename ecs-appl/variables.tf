@@ -10,13 +10,27 @@ variable "vpc-id" {}
 
 variable "lb-port" {}
 
-variable "load-balancer-name" {
-  description = "The name for the autoscaling group for the cluster."
+variable "image" {}
+
+variable "cpu" {}
+
+variable "memory" {}
+
+variable "container-path" {} 
+
+variable "storage-type" {}
+
+variable "service-sched-strategy" {
+  default="REPLICA"
 }
 
-variable "target-group-name" {
-  description = "The name for the autoscaling group for the cluster."
-}
+#variable "load-balancer-name" {
+#  description = "The name for the autoscaling group for the cluster."
+#}
+
+#variable "target-group-name" {
+#  description = "The name for the autoscaling group for the cluster."
+#}
 
 variable "subnet-ids" {}
 
