@@ -10,6 +10,7 @@
 # subnets als array
 # storage ebs / efs aan ecs-appl module
 # taak met params. image, port, taak naam, mem, cpu
+ebs volume opties, size, type iops
 name resources from env/name
 toevoegen tags
 output zinvolle info

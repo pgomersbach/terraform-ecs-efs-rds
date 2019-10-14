@@ -50,7 +50,7 @@ module "ecs-appl" {
   image                = "612516126697.dkr.ecr.eu-central-1.amazonaws.com/elasticsearch-73-cd"
   memory               = 1024
   cpu                  = 128
-  container-path       = "/usr/share/elasticsearch"
+  container-path       = "/esdata"
   storage-type         = "ebs"  # efs | ebs 
   service-sched-strategy = "DAEMON" # DAEMON | REPLICA
   vpc-id               = data.aws_vpc.default-vpc.id

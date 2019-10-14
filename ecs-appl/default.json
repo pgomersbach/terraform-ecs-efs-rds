@@ -37,7 +37,11 @@
                 "dockerVolumeConfiguration": {
                     "autoprovision": true,
                     "scope": "shared",
-                    "driver": "rexray/${storage-type}"
+                    "driver": "rexray/${storage-type}",
+                    "driverOpts": {
+                        "volumetype": "gp2",
+                        "size": "110"
+                    }
                 }
             }
         ]
