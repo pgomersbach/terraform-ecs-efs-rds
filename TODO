@@ -10,15 +10,20 @@
 # subnets als array
 # storage ebs / efs aan ecs-appl module
 # taak met params. image, port, taak naam, mem, cpu
-ebs volume opties, size, type iops
+# ebs volume opties, size, type iops
+rds toevoegen
+environment opties toevoegen aan taak definitie
+# health check toevoegen aan taak
+kiezen tussen standaard taak of eigen taak definitie
+auto scaling instances
 name resources from env/name
 toevoegen tags
-output zinvolle info
+output zinvolle info na deployment
 modules herbruikbaar maken
 verwijder mount target als destroy optie
-r53 aan service toevoegen
+r53 aan lb toevoegen
 add remote state
 gebruik workspaces
 install elk stack
 change README
-test loadbalancer vanuit mn
+# test loadbalancer vanuit mn

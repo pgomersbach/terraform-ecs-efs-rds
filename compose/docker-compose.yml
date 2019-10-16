@@ -1,0 +1,79 @@
+version: '3'
+services:
+  kibana:
+    image: 612516126697.dkr.ecr.eu-central-1.amazonaws.com/kibana-73-cd
+    links:
+      - elasticsearch
+      - elasticsearch-post
+    ports:
+      - "5601:5601"
+    environment:
+      ES_JAVA_OPTS: "-Xmx256m -Xms256m"
+    healthcheck:
+      test: ["CMD", "curl", "-s", "-f", "http://localhost:5601/"]
+      retries: 6
+    logging:
+      driver: awslogs
+      options:
+        awslogs-group: ecslogs
+        awslogs-region: eu-central-1
+        awslogs-stream-prefix: elk
+
+  elasticsearch:
+    image: 612516126697.dkr.ecr.eu-central-1.amazonaws.com/elasticsearch-73-cd
+    ports:
+      - "9200:9200"
+    environment:
+      ES_JAVA_OPTS: "-Xmx768m -Xms768m"
+    volumes:
+      - esdata:/esdata
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    healthcheck:
+      test: ["CMD", "curl","-s" ,"-f", "http://localhost:9200/_cat/health"]
+    logging:
+      driver: awslogs
+      options: 
+        awslogs-group: ecslogs
+        awslogs-region: eu-central-1
+        awslogs-stream-prefix: elk
+
+  elasticsearch-post:
+    image: 612516126697.dkr.ecr.eu-central-1.amazonaws.com/elasticsearch-73-cd
+    links:
+      - elasticsearch
+    command: /usr/local/bin/post.sh
+    environment:
+      LS_JAVA_OPTS: "-Xmx128m -Xms128m"
+      NODE_NAME: $HOSTNAME
+    logging:
+      driver: awslogs
+      options:
+        awslogs-group: ecslogs
+        awslogs-region: eu-central-1
+        awslogs-stream-prefix: elk
+  
+  heartbeat:
+    image: 612516126697.dkr.ecr.eu-central-1.amazonaws.com/heartbeat-73-cd
+    links:
+      - elasticsearch
+      - elasticsearch-post
+      - kibana
+    user: root
+    command: heartbeat -e -strict.perms=false
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    environment:
+      LS_JAVA_OPTS: "-Xmx128m -Xms128m"
+      NODE_NAME: $HOSTNAME
+    logging:
+      driver: awslogs
+      options:
+        awslogs-group: ecslogs
+        awslogs-region: eu-central-1
+        awslogs-stream-prefix: elk
+
+volumes:
+  esdata:

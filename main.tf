@@ -43,16 +43,17 @@ module "ecs" {
   ecs-service-role-arn = module.iam.ecs-service-role-arn
 }
 
+
 module "ecs-appl" {
   source               = "./ecs-appl"
-  lb-port              = 9200
-  ecs-service-name     = "elasticsearch"
+  lb-port              = 5601
+  ecs-service-name     = "kibana"
   image                = "612516126697.dkr.ecr.eu-central-1.amazonaws.com/elasticsearch-73-cd"
-  memory               = 1024
-  cpu                  = 128
+  memory               = 4096
+  cpu                  = 1024
   container-path       = "/esdata"
   storage-type         = "ebs"  # efs | ebs 
-  service-sched-strategy = "DAEMON" # DAEMON | REPLICA
+  service-sched-strategy = "REPLICA" # DAEMON | REPLICA
   vpc-id               = data.aws_vpc.default-vpc.id
   subnet-ids           = data.aws_subnet_ids.all-sub.ids
   ecs-target-group-arn = module.ecs-appl.ecs-target-group-arn

@@ -1,0 +1,59 @@
+[
+    {
+        "logConfiguration": {
+            "logDriver": "awslogs",
+            "options": {
+                "awslogs-create-group": "true",
+                "awslogs-group": "ecslogs",
+                "awslogs-region": "eu-central-1",
+                "awslogs-stream-prefix": "${ecs-service-name}"
+            }
+        },
+        "portMappings": [
+           {
+                "containerPort": ${port},
+                "hostPort": ${port},
+                "protocol": "tcp"
+            },
+            {
+                "containerPort": 9300,
+                "hostPort": 9300,
+                "protocol": "tcp"
+            }
+        ],
+        "mountPoints": [
+            {
+                "containerPath": "${container-path}",
+                "sourceVolume": "rexray-${storage-type}-vol"
+            }
+        ],
+        "image": "${image}",
+        "essential": true,
+        "name": "${ecs-service-name}",
+        "memory": ${memory},
+        "family": "rexray-${storage-type}",
+        "networkMode": "bridge",
+        "requiresCompatibilities": [
+            "EC2"
+        ],
+        "cpu": ${cpu},
+        "volumes": [
+            {
+                "name": "/rexray-${storage-type}-vol",
+                "dockerVolumeConfiguration": {
+                    "autoprovision": true,
+                    "scope": "shared",
+                    "driver": "rexray/${storage-type}",
+                    "driverOpts": {
+                        "volumetype": "gp2",
+                        "size": "110"
+                    }
+                }
+            }
+        ],
+        "environment" : [
+            { "name" : "ES_JAVA_OPTS", "value" : "-Xmx768m -Xms768m" },
+            { "name" : "bootstrap.memory_lock", "value" : "false" }
+        ]
+    }
+]

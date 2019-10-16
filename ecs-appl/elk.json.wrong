@@ -1,0 +1,95 @@
+[
+        {
+            "environment": [
+                {
+                    "name": "ES_JAVA_OPTS",
+                    "value": "-Xmx2048m -Xms2048m"
+                },
+                {
+                    "name": "bootstrap.memory_lock",
+                    "value": "true"
+                },
+                {
+                    "name": "ELASTIC_PASSWORD",
+                    "value": "changeme"
+                }
+            ],
+            "essential": true,
+            "image": "612516126697.dkr.ecr.eu-central-1.amazonaws.com/elasticsearch-73-cd",
+            "name": "elasticsearch",
+            "memory": 2048,
+            "cpu": 10,
+            "portMappings": [
+                {
+                    "containerPort": 9200,
+                    "hostPort": 9200
+                },
+                {
+                    "containerPort": 9300,
+                    "hostPort": 9300
+                }
+            ]
+        },
+        {
+            "command": [
+                "/usr/local/bin/post.sh"
+            ],
+            "environment": [
+                {
+                    "name": "LS_JAVA_OPTS",
+                    "value": "-Xmx128m -Xms128m"
+                },
+                {
+                    "name": "NODE_NAME",
+                    "value": "$HOSTNAME"
+                }
+            ],
+            "essential": true,
+            "image": "612516126697.dkr.ecr.eu-central-1.amazonaws.com/elasticsearch-73-cd",
+            "name": "elasticsearch-post",
+            "memory": 2048,
+            "cpu": 10,
+            "user": "root"
+        },
+        {
+            "command": [
+                "heartbeat",
+                "-e",
+                "-strict.perms=false"
+            ],
+            "environment": [
+                {
+                    "name": "LS_JAVA_OPTS",
+                    "value": "-Xmx128m -Xms128m"
+                },
+                {
+                    "name": "NODE_NAME",
+                    "value": "$HOSTNAME"
+                }
+            ],
+            "essential": true,
+            "image": "612516126697.dkr.ecr.eu-central-1.amazonaws.com/heartbeat-73-cd",
+            "name": "heartbeat",
+            "memory": 2048,
+            "cpu": 10
+        },
+        {
+            "environment": [
+                {
+                    "name": "LS_JAVA_OPTS",
+                    "value": "-Xmx256m -Xms256m"
+                }
+            ],
+            "essential": true,
+            "image": "612516126697.dkr.ecr.eu-central-1.amazonaws.com/kibana-73-cd",
+            "name": "kibana",
+            "memory": 2048,
+            "cpu": 10,
+            "portMappings": [
+                {
+                    "containerPort": 5601,
+                    "hostPort": 5601
+                }
+            ]
+        }
+]

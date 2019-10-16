@@ -18,4 +18,10 @@ resource "aws_ecs_task_definition" "my-task" {
       }
     }
   }
+
+  volume {
+    name = "volume-heartbeat"
+    host_path = "/var/run/docker.sock"
+  }
+
 }

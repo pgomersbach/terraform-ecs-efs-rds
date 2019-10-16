@@ -1,0 +1,115 @@
+[
+    {
+        "logConfiguration": {
+            "logDriver": "awslogs",
+            "options": {
+                "awslogs-create-group": "true",
+                "awslogs-group": "ecslogs",
+                "awslogs-region": "eu-central-1",
+                "awslogs-stream-prefix": "elk"
+            }
+        },
+        "mountPoints": [
+            {
+                "readOnly": true,
+                "containerPath": "/var/run/docker.sock",
+                "sourceVolume": "volume-heartbeat"
+            }
+        ],
+        "image": "612516126697.dkr.ecr.eu-central-1.amazonaws.com/heartbeat-73-cd",
+        "essential": true,
+        "links": [
+          "elasticsearch"
+        ],
+        "name": "heartbeat",
+        "user": "root",
+        "memory": 256,
+        "family": "elk",
+        "networkMode": "bridge",
+        "requiresCompatibilities": [
+            "EC2"
+        ],
+        "cpu": 100,
+        "command": [
+            "heartbeat",
+            "-e",
+            "-strict.perms=false"
+        ],
+        "environment": [
+            {
+                "name": "LS_JAVA_OPTS",
+                "value": "-Xmx128m -Xms128m"
+            },
+            {
+                "name": "NODE_NAME",
+                "value": "$HOSTNAME"
+            }
+        ]
+    },
+    {
+        "logConfiguration": {
+            "logDriver": "awslogs",
+            "options": {
+                "awslogs-create-group": "true",
+                "awslogs-group": "ecslogs",
+                "awslogs-region": "eu-central-1",
+                "awslogs-stream-prefix": "elk"
+            }
+        },
+        "portMappings": [
+           {
+                "containerPort": 9200,
+                "hostPort": 9200,
+                "protocol": "tcp"
+            },
+            {
+                "containerPort": 9300,
+                "hostPort": 9300,
+                "protocol": "tcp"
+            }
+        ],
+        "mountPoints": [
+            {
+                "containerPath": "/esdata",
+                "sourceVolume": "rexray-ebs-vol"
+            }
+        ],
+        "image": "612516126697.dkr.ecr.eu-central-1.amazonaws.com/elasticsearch-73-cd",
+        "essential": true,
+        "name": "elasticsearch",
+        "memory": 4096,
+        "family": "elk",
+        "networkMode": "bridge",
+        "requiresCompatibilities": [
+            "EC2"
+        ],
+        "cpu": 100,
+        "volumes": [
+           {
+             "name": "volume-heartbeat",
+             "host": {
+               "sourcePath": "/var/run/docker.sock"
+             },
+             "dockerVolumeConfiguration": null
+           },
+           {
+             "name": "esdata",
+             "host": null,
+             "dockerVolumeConfiguration": {
+               "autoprovision": true,
+               "labels": null,
+               "scope": "shared",
+               "driver": "rexray/ebs",
+               "driverOpts": {
+                 "volumetype": "gp2",
+                 "size": "202"
+               }
+             }
+           }
+         ],
+        "environment" : [
+            { "name" : "ES_JAVA_OPTS", "value" : "-Xmx768m -Xms768m" },
+            { "name" : "bootstrap.memory_lock", "value" : "false" }
+        ]
+    }
+]

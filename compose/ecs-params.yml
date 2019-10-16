@@ -1,0 +1,22 @@
+version: 1
+task_definition:
+  services:
+    elasticsearch:
+      cpu_shares: 100
+      mem_limit: 2048000000
+      placement_constraints:
+        - type: memberOf
+          expression: attribute:ecs.capability.docker-plugin.rexray/ebs exists
+
+    elasticsearch-post:
+      essential: false
+
+  docker_volumes:
+    - name: esdata
+      scope: shared
+      autoprovision: true
+      driver: 'rexray/ebs'
+      driver_opts:
+         size: 202
+         volumetype: gp2
+

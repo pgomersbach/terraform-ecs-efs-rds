@@ -63,6 +63,6 @@ variable "launch-configuration-name" {
 
 variable "instance-type" {
   description = "The instance type for the autoscaling group."
-  default     = "t2.medium"
+  default     = "i3.large"
 }
 

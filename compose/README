@@ -1,0 +1,2 @@
+ecs-cli compose service up --aws-profile mn-d01-cd --cluster tf-ecs-cluster
+

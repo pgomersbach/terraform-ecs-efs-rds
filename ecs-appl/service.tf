@@ -1,5 +1,6 @@
 resource "aws_alb" "ecs-load-balancer" {
   name            = "alb-${var.ecs-service-name}"
+  internal        = true
   security_groups = [ aws_security_group.lb-security-group.id ]
   subnets         = var.subnet-ids
 }
@@ -13,7 +14,7 @@ resource "aws_security_group" "lb-security-group" {
   ingress {
     from_port   = var.lb-port
     to_port     = var.lb-port
-    protocol    = "tcp"
+    protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
 
@@ -32,10 +33,11 @@ resource "aws_alb_target_group" "ecs-target-group" {
   vpc_id      = var.vpc-id
 
   health_check {
-    healthy_threshold   = "5"
-    unhealthy_threshold = "2"
+    port                = var.lb-port
+    healthy_threshold   = "2"
+    unhealthy_threshold = "5"
     interval            = "30"
-    matcher             = "200"
+    matcher             = "302"
     path                = "/"
     protocol            = "HTTP"
     timeout             = "5"
@@ -44,7 +46,7 @@ resource "aws_alb_target_group" "ecs-target-group" {
 
 resource "aws_alb_listener" "alb-listener" {
   load_balancer_arn = aws_alb.ecs-load-balancer.arn
-  port              = var.lb-port
+  port              = 80 # var.lb-port
   protocol          = "HTTP"
 
   default_action {
@@ -67,13 +69,6 @@ resource "aws_ecs_service" "demo-ecs-service" {
     container_port   = var.lb-port
     container_name   = var.ecs-service-name
   }
-
-/*
-  ordered_placement_strategy {
-    type  = "spread"
-    field = "attribute:ecs.availability-zone"
-  }
-*/
 
 }
 
