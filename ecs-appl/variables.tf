@@ -10,7 +10,7 @@ variable "vpc-id" {}
 
 variable "lb-port" {}
 
-variable "image" {}
+# variable "image" {}
 
 variable "cpu" {}
 

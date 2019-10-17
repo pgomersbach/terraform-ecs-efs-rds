@@ -1,0 +1,284 @@
+[
+    {
+        "logConfiguration": {
+            "logDriver": "awslogs",
+            "options": {
+                "awslogs-create-group": "true",
+                "awslogs-group": "ecslogs",
+                "awslogs-region": "eu-central-1",
+                "awslogs-stream-prefix": "elk"
+            }
+        },
+        "mountPoints": [
+            {
+                "readOnly": true,
+                "containerPath": "/var/run/docker.sock",
+                "sourceVolume": "volume-metricbeat"
+            }
+        ],
+        "image": "612516126697.dkr.ecr.eu-central-1.amazonaws.com/metricbeat-73-cd",
+        "dependsOn": [
+            {
+                "containerName": "kibana",
+                "condition": "HEALTHY"
+            },
+            {
+                "containerName": "elasticsearch",
+                "condition": "HEALTHY"
+            },
+            {
+                "containerName": "elasticsearch-post",
+                "condition": "COMPLETE"
+            }
+        ],
+        "essential": false,
+        "links": [
+          "elasticsearch",
+          "kibana"
+        ],
+        "name": "metricbeat",
+        "user": "root",
+        "memory": 256,
+        "family": "elk",
+        "networkMode": "bridge",
+        "requiresCompatibilities": [
+            "EC2"
+        ],
+        "cpu": 10,
+        "command": [
+            "metricbeat",
+            "-e",
+            "-system.hostfs=/hostfs",
+            "-strict.perms=false"
+        ],
+        "environment": [
+            {
+                "name": "LS_JAVA_OPTS",
+                "value": "-Xmx128m -Xms128m"
+            },
+            {
+                "name": "NODE_NAME",
+                "value": "$HOSTNAME"
+            }
+        ]
+    },
+    {
+        "logConfiguration": {
+            "logDriver": "awslogs",
+            "options": {
+                "awslogs-create-group": "true",
+                "awslogs-group": "ecslogs",
+                "awslogs-region": "eu-central-1",
+                "awslogs-stream-prefix": "elk"
+            }
+        },
+        "image": "612516126697.dkr.ecr.eu-central-1.amazonaws.com/kibana-73-cd",
+        "portMappings": [
+           {
+             "hostPort": 5601,
+             "protocol": "tcp",
+             "containerPort": 5601
+           }
+        ],
+        "dependsOn": [
+            {
+                "containerName": "elasticsearch",
+                "condition": "HEALTHY"
+            }
+        ],
+        "healthCheck": {
+           "retries": 6,
+           "command": [
+             "CMD",
+             "curl",
+             "-s",
+             "-f",
+             "http://localhost:5601/"
+           ],
+           "timeout": 5,
+           "interval": 30,
+           "startPeriod": null
+        },
+        "essential": false,
+        "links": [
+          "elasticsearch"
+        ],
+        "name": "kibana",
+        "memory": 1024,
+        "family": "elk",
+        "networkMode": "bridge",
+        "requiresCompatibilities": [
+            "EC2"
+        ],
+        "cpu": 10,
+        "environment" : [
+            { "name" : "ES_JAVA_OPTS", "value" : "-Xmx256m -Xms256m" }
+        ]
+    },
+    {
+        "logConfiguration": {
+            "logDriver": "awslogs",
+            "options": {
+                "awslogs-create-group": "true",
+                "awslogs-group": "ecslogs",
+                "awslogs-region": "eu-central-1",
+                "awslogs-stream-prefix": "elk"
+            }
+        },
+        "mountPoints": [
+            {
+                "readOnly": true,
+                "containerPath": "/var/run/docker.sock",
+                "sourceVolume": "volume-heartbeat"
+            }
+        ],
+        "image": "612516126697.dkr.ecr.eu-central-1.amazonaws.com/heartbeat-73-cd",
+        "dependsOn": [
+            {
+                "containerName": "kibana",
+                "condition": "HEALTHY"
+            },
+            {
+                "containerName": "elasticsearch",
+                "condition": "HEALTHY"
+            },
+            {
+                "containerName": "elasticsearch-post",
+                "condition": "COMPLETE"
+            }
+        ],
+        "healthCheck": {
+          "retries": 10,
+          "command": [
+            "CMD",
+            "heartbeat",
+            "test",
+            "config"
+          ],
+          "timeout": 5,
+          "interval": 30,
+          "startPeriod": 180
+        },
+        "essential": false,
+        "links": [
+          "elasticsearch",
+          "kibana"
+        ],
+        "name": "heartbeat",
+        "user": "root",
+        "memory": 256,
+        "family": "elk",
+        "networkMode": "bridge",
+        "requiresCompatibilities": [
+            "EC2"
+        ],
+        "cpu": 10,
+        "command": [
+            "heartbeat",
+            "-e",
+            "-strict.perms=false"
+        ],
+        "environment": [
+            {
+                "name": "LS_JAVA_OPTS",
+                "value": "-Xmx128m -Xms128m"
+            },
+            {
+                "name": "NODE_NAME",
+                "value": "$HOSTNAME"
+            }
+        ]
+    },
+    {
+        "logConfiguration": {
+            "logDriver": "awslogs",
+            "options": {
+                "awslogs-create-group": "true",
+                "awslogs-group": "ecslogs",
+                "awslogs-region": "eu-central-1",
+                "awslogs-stream-prefix": "elk"
+            }
+        },
+        "portMappings": [
+           {
+                "containerPort": 9200,
+                "hostPort": 9200,
+                "protocol": "tcp"
+            },
+            {
+                "containerPort": 9300,
+                "hostPort": 9300,
+                "protocol": "tcp"
+            }
+        ],
+        "mountPoints": [
+            {
+                "containerPath": "/esdata",
+                "sourceVolume": "rexray-ebs-vol"
+            }
+        ],
+        "image": "612516126697.dkr.ecr.eu-central-1.amazonaws.com/elasticsearch-73-cd",
+        "healthCheck": {
+          "retries": 10,
+          "command": [
+            "CMD",
+            "curl",
+            "-s",
+            "-f",
+            "http://localhost:9200/_cat/health"
+          ],
+          "timeout": 5,
+          "interval": 30,
+          "startPeriod": 120
+        },
+        "essential": true,
+        "name": "elasticsearch",
+        "memory": 4096,
+        "family": "elk",
+        "networkMode": "bridge",
+        "requiresCompatibilities": [
+            "EC2"
+        ],
+        "cpu": 100,
+        "environment" : [
+            { "name" : "ES_JAVA_OPTS", "value" : "-Xmx768m -Xms768m" },
+            { "name" : "bootstrap.memory_lock", "value" : "false" }
+        ]
+    },
+    {
+        "logConfiguration": {
+            "logDriver": "awslogs",
+            "options": {
+                "awslogs-create-group": "true",
+                "awslogs-group": "ecslogs",
+                "awslogs-region": "eu-central-1",
+                "awslogs-stream-prefix": "elk"
+            }
+        },
+        "image": "612516126697.dkr.ecr.eu-central-1.amazonaws.com/elasticsearch-73-cd",
+        "command": [
+           "/usr/local/bin/post.sh"
+        ],
+        "dependsOn": [
+            {
+                "containerName": "elasticsearch",
+                "condition": "HEALTHY"
+            }
+        ],
+        "essential": false,
+        "links": [
+          "elasticsearch"
+        ],
+        "name": "elasticsearch-post",
+        "memory": 256,
+        "family": "elk",
+        "networkMode": "bridge",
+        "requiresCompatibilities": [
+            "EC2"
+        ],
+        "cpu": 10,
+        "environment" : [
+            { "name" : "ES_JAVA_OPTS", "value" : "-Xmx128m -Xms128m" }
+        ]
+    }
+]

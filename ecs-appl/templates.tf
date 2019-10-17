@@ -1,9 +1,8 @@
 data "template_file" "task-template" {
-  template = file("./ecs-appl/default.json")
+  template = file("./ecs-appl/${var.ecs-service-name}.json")
 
   vars = {
     ecs-service-name = "${var.ecs-service-name}"
-    image            = "${var.image}"
     port             = "${var.lb-port}"
     memory           = "${var.memory}"
     cpu              = "${var.cpu}"
