@@ -25,8 +25,18 @@ resource "aws_ecs_task_definition" "my-task" {
   }
 
   volume {
-    name = "volume-metricbeat"
+    name = "volume-metricbeat-sock"
     host_path = "/var/run/docker.sock"
+  }
+
+  volume {
+    name = "volume-metricbeat-cgroup"
+    host_path = "/sys/fs/cgroup"
+  }
+
+  volume {
+    name = "volume-metricbeat-proc"
+    host_path = "/proc"
   }
 
 }

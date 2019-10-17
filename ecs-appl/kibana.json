@@ -13,7 +13,17 @@
             {
                 "readOnly": true,
                 "containerPath": "/var/run/docker.sock",
-                "sourceVolume": "volume-metricbeat"
+                "sourceVolume": "volume-metricbeat-sock"
+            },
+            {
+                "readOnly": true,
+                "containerPath": "/hostfs/sys/fs/cgroup",
+                "sourceVolume": "volume-metricbeat-cgroup"
+            },
+            {
+                "readOnly": true,
+                "containerPath": "/hostfs/proc",
+                "sourceVolume": "volume-metricbeat-proc"
             }
         ],
         "image": "612516126697.dkr.ecr.eu-central-1.amazonaws.com/metricbeat-73-cd",
@@ -31,6 +41,18 @@
                 "condition": "COMPLETE"
             }
         ],
+        "healthCheck": {
+           "retries": 6,
+           "command": [
+             "CMD",
+             "metricbeat",
+             "test",
+             "config"
+           ],
+           "timeout": 5,
+           "interval": 30,
+           "startPeriod": null
+        },
         "essential": false,
         "links": [
           "elasticsearch",
@@ -44,13 +66,20 @@
         "requiresCompatibilities": [
             "EC2"
         ],
-        "cpu": 10,
+        "cpu": 128,
         "command": [
             "metricbeat",
             "-e",
             "-system.hostfs=/hostfs",
             "-strict.perms=false"
         ],
+        "linuxParameters": {
+           "capabilities": {
+             "add": [
+               "SYS_PTRACE"
+             ]
+           }
+        },
         "environment": [
             {
                 "name": "LS_JAVA_OPTS",
@@ -110,7 +139,7 @@
         "requiresCompatibilities": [
             "EC2"
         ],
-        "cpu": 10,
+        "cpu": 128,
         "environment" : [
             { "name" : "ES_JAVA_OPTS", "value" : "-Xmx256m -Xms256m" }
         ]
@@ -172,7 +201,7 @@
         "requiresCompatibilities": [
             "EC2"
         ],
-        "cpu": 10,
+        "cpu": 128,
         "command": [
             "heartbeat",
             "-e",
@@ -239,7 +268,7 @@
         "requiresCompatibilities": [
             "EC2"
         ],
-        "cpu": 100,
+        "cpu": 512,
         "environment" : [
             { "name" : "ES_JAVA_OPTS", "value" : "-Xmx768m -Xms768m" },
             { "name" : "bootstrap.memory_lock", "value" : "false" }
@@ -276,7 +305,7 @@
         "requiresCompatibilities": [
             "EC2"
         ],
-        "cpu": 10,
+        "cpu": 128,
         "environment" : [
             { "name" : "ES_JAVA_OPTS", "value" : "-Xmx128m -Xms128m" }
         ]

@@ -28,28 +28,26 @@ module "ec2" {
   max-instance-size         = 4
   min-instance-size         = 2
   desired-capacity          = 3
+  instance-type             = "i3.large"
   vpc-id                    = data.aws_vpc.default-vpc.id
   subnet-ids                = data.aws_subnet_ids.all-sub.ids
   ecs-instance-role-name    = module.iam.ecs-instance-role-name
   ecs-instance-profile-name = module.iam.ecs-instance-profile-name
-  ecs-cluster-name          = var.ecs-cluster-name
+  ecs-cluster-name          = "${var.aws-profile-name}-ecs-cluster"
   ecs-region-name           = var.ecs-region-name
   ecs-key-pair-name         = var.ecs-key-pair-name
 }
 
 module "ecs" {
   source               = "./ecs"
-  ecs-cluster-name     = var.ecs-cluster-name
-  ecs-service-role-arn = module.iam.ecs-service-role-arn
+  ecs-cluster-name     = "${var.aws-profile-name}-ecs-cluster"
 }
-
 
 module "ecs-appl" {
   source               = "./ecs-appl"
   lb-port              = 5601
   ecs-service-name     = "kibana"
-  image                = "612516126697.dkr.ecr.eu-central-1.amazonaws.com/elasticsearch-73-cd"
-  memory               = 4096
+  memory               = 8192
   cpu                  = 1024
   container-path       = "/esdata"
   storage-type         = "ebs"  # efs | ebs 

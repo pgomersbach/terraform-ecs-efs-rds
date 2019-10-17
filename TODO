@@ -11,9 +11,11 @@
 # storage ebs / efs aan ecs-appl module
 # taak met params. image, port, taak naam, mem, cpu
 # ebs volume opties, size, type iops
-rds toevoegen
-environment opties toevoegen aan taak definitie
+# test loadbalancer vanuit mn
 # health check toevoegen aan taak
+modules herbruikbaar maken
+name resources from env/name
+rds toevoegen
 kiezen tussen standaard taak of eigen taak definitie
 auto scaling instances
 name resources from env/name
@@ -26,4 +28,3 @@ add remote state
 gebruik workspaces
 install elk stack
 change README
-# test loadbalancer vanuit mn

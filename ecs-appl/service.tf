@@ -12,9 +12,9 @@ resource "aws_security_group" "lb-security-group" {
 
   // TCP
   ingress {
-    from_port   = var.lb-port
-    to_port     = var.lb-port
-    protocol    = "tcp"
+    from_port   = 0 # var.lb-port
+    to_port     = 0 # var.lb-port
+    protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
 
