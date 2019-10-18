@@ -20,7 +20,23 @@ resource "aws_ecs_task_definition" "my-task" {
   }
 
   volume {
-    name = "volume-heartbeat"
+    name = "volume-filebeat-sock"
+    host_path = "/var/run/docker.sock"
+  }
+
+  volume {
+    name = "volume-filebeat-containers"
+    host_path = "/var/lib/docker/containers"
+  }
+
+  volume {
+    name = "volume-filebeat-log"
+    host_path = "/var/log"
+  }
+
+
+  volume {
+    name = "volume-heartbeat-sock"
     host_path = "/var/run/docker.sock"
   }
 

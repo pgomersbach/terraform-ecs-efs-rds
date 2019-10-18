@@ -13,6 +13,152 @@
             {
                 "readOnly": true,
                 "containerPath": "/var/run/docker.sock",
+                "sourceVolume": "volume-filebeat-sock"
+            },
+            {
+                "readOnly": true,
+                "containerPath": "/var/lib/docker/containers",
+                "sourceVolume": "volume-filebeat-containers"
+            },
+            {
+                "readOnly": true,
+                "containerPath": "/var/log",
+                "sourceVolume": "volume-filebeat-log"
+            }
+        ],
+        "image": "612516126697.dkr.ecr.eu-central-1.amazonaws.com/filebeat-73-cd",
+        "dependsOn": [
+            {
+                "containerName": "kibana",
+                "condition": "HEALTHY"
+            },
+            {
+                "containerName": "elasticsearch",
+                "condition": "HEALTHY"
+            },
+            {
+                "containerName": "elasticsearch-post",
+                "condition": "COMPLETE"
+            }
+        ],
+        "healthCheck": {
+          "retries": 10,
+          "command": [
+            "CMD",
+            "filebeat",
+            "test",
+            "config"
+          ],
+          "timeout": 5,
+          "interval": 30,
+          "startPeriod": 180
+        },
+        "essential": false,
+        "links": [
+          "elasticsearch",
+          "kibana"
+        ],
+        "name": "filebeat",
+        "user": "root",
+        "memory": 256,
+        "family": "elk",
+        "networkMode": "bridge",
+        "requiresCompatibilities": [
+            "EC2"
+        ],
+        "cpu": 128,
+        "command": [
+            "filebeat",
+            "-e",
+            "-strict.perms=false"
+        ],
+        "environment": [
+            {
+                "name": "LS_JAVA_OPTS",
+                "value": "-Xmx128m -Xms128m"
+            },
+            {
+                "name": "NODE_NAME",
+                "value": "$HOSTNAME"
+            }
+        ]
+    },
+    {
+        "logConfiguration": {
+            "logDriver": "awslogs",
+            "options": {
+                "awslogs-create-group": "true",
+                "awslogs-group": "ecslogs",
+                "awslogs-region": "eu-central-1",
+                "awslogs-stream-prefix": "elk"
+            }
+        },
+        "image": "612516126697.dkr.ecr.eu-central-1.amazonaws.com/apm-server-73-cd",
+        "portMappings": [
+           {
+             "hostPort": 8200,
+             "protocol": "tcp",
+             "containerPort": 8200
+           }
+        ],
+        "dependsOn": [
+            {
+                "containerName": "kibana",
+                "condition": "HEALTHY"
+            },
+            {
+                "containerName": "elasticsearch",
+                "condition": "HEALTHY"
+            },
+            {
+                "containerName": "elasticsearch-post",
+                "condition": "COMPLETE"
+            }
+        ],
+        "healthCheck": {
+           "retries": 6,
+           "command": [
+             "CMD",
+             "curl",
+             "-s",
+             "-f",
+             "http://localhost:8200/"
+           ],
+           "timeout": 5,
+           "interval": 30,
+           "startPeriod": null
+        },
+        "essential": false,
+        "links": [
+          "elasticsearch",
+          "kibana"
+        ],
+        "name": "apm-server",
+        "memory": 256,
+        "family": "elk",
+        "networkMode": "bridge",
+        "requiresCompatibilities": [
+            "EC2"
+        ],
+        "cpu": 128,
+        "environment" : [
+            { "name" : "ES_JAVA_OPTS", "value" : "-Xmx128m -Xms128m" }
+        ]
+    },
+    {
+        "logConfiguration": {
+            "logDriver": "awslogs",
+            "options": {
+                "awslogs-create-group": "true",
+                "awslogs-group": "ecslogs",
+                "awslogs-region": "eu-central-1",
+                "awslogs-stream-prefix": "elk"
+            }
+        },
+        "mountPoints": [
+            {
+                "readOnly": true,
+                "containerPath": "/var/run/docker.sock",
                 "sourceVolume": "volume-metricbeat-sock"
             },
             {
@@ -158,7 +304,7 @@
             {
                 "readOnly": true,
                 "containerPath": "/var/run/docker.sock",
-                "sourceVolume": "volume-heartbeat"
+                "sourceVolume": "volume-heartbeat-sock"
             }
         ],
         "image": "612516126697.dkr.ecr.eu-central-1.amazonaws.com/heartbeat-73-cd",
@@ -191,7 +337,8 @@
         "essential": false,
         "links": [
           "elasticsearch",
-          "kibana"
+          "kibana",
+          "apm-server"
         ],
         "name": "heartbeat",
         "user": "root",

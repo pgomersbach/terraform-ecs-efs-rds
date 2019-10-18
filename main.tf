@@ -28,7 +28,7 @@ module "ec2" {
   max-instance-size         = 4
   min-instance-size         = 2
   desired-capacity          = 3
-  instance-type             = "i3.large"
+  instance-type             = "t3.xlarge"
   vpc-id                    = data.aws_vpc.default-vpc.id
   subnet-ids                = data.aws_subnet_ids.all-sub.ids
   ecs-instance-role-name    = module.iam.ecs-instance-role-name
@@ -37,6 +37,21 @@ module "ec2" {
   ecs-region-name           = var.ecs-region-name
   ecs-key-pair-name         = var.ecs-key-pair-name
 }
+
+/*
+module "rds" {
+  source            = "./rds"
+  environment       = "production"
+  allocated_storage = "20"
+  database_name     = "${var.production_database_name}"
+  database_username = "${var.production_database_username}"
+  database_password = "${var.production_database_password}"
+  subnet_ids        = ["${module.vpc.subnet1-id}", "${module.vpc.subnet2-id}"]
+  vpc_id            = "${module.vpc.id}"
+  instance_class    = "db.t2.micro"
+}
+
+*/
 
 module "ecs" {
   source               = "./ecs"
@@ -48,7 +63,7 @@ module "ecs-appl" {
   lb-port              = 5601
   ecs-service-name     = "kibana"
   memory               = 8192
-  cpu                  = 1024
+  cpu                  = 2048
   container-path       = "/esdata"
   storage-type         = "ebs"  # efs | ebs 
   service-sched-strategy = "REPLICA" # DAEMON | REPLICA
