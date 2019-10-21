@@ -13,3 +13,18 @@ variable "ecs-key-pair-name" {
   default     = "mn-paulg"
 }
 
+variable "production_database_name" {
+  description = "Database name"
+  default     = "postgres"
+}
+
+variable "production_database_username" {
+  description = "Database admin user"
+  default     = "localadmin"
+}
+
+variable "production_database_password" {
+  description = "Database admin password"
+  default     = "changeme"
+}
+
