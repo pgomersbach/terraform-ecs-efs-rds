@@ -6,7 +6,6 @@ This repository contains `Terrorform` configuration files to deploy data-persist
 
 * [Amazon ECS](https://aws.amazon.com/ecs/)
 * [Amazon RDS](https://aws.amazon.com/rds/)
-* [Amazon EFS](https://aws.amazon.com/efs/)
 * [Amazon EC2](https://aws.amazon.com/ec2/)
 * [Amazon VPC](https://aws.amazon.com/vpc/)
 * [Amazon ELB](https://aws.amazon.com/es/elasticloadbalancing/)
@@ -105,7 +104,4 @@ Configure and launch RDS.
 
 ```
 terraform apply -target=module.rds
-```
-
-## Author
-[**Shashank Sinha**] <sinha.shashank.1989@gmail.com>
+`
