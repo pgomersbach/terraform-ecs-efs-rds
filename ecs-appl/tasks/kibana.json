@@ -17,12 +17,6 @@
              "containerPort": 5601
            }
         ],
-        "dependsOn": [
-            {
-                "containerName": "elasticsearch",
-                "condition": "HEALTHY"
-            }
-        ],
         "healthCheck": {
            "retries": 6,
            "command": [
@@ -36,10 +30,7 @@
            "interval": 30,
            "startPeriod": null
         },
-        "essential": false,
-        "links": [
-          "elasticsearch"
-        ],
+        "essential": true,
         "name": "kibana",
         "memory": 1024,
         "family": "elk",
@@ -49,7 +40,8 @@
         ],
         "cpu": 128,
         "environment" : [
-            { "name" : "ES_JAVA_OPTS", "value" : "-Xmx256m -Xms256m" }
+            { "name" : "ES_JAVA_OPTS", "value" : "-Xmx256m -Xms256m" },
+            { "name" : "ELASTICSEARCH_HOSTS", "value" : "${target-lb-url}" }
         ]
     }
 ]

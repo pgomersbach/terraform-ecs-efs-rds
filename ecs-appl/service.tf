@@ -29,10 +29,11 @@ resource "aws_route53_record" "service" {
 }
 
 resource "aws_security_group" "lb-security-group" {
-  for_each    = local.lb
-  name        = "lb-security-group"
-  description = "LB security group"
-  vpc_id      = var.vpc-id
+  for_each               = local.lb
+#  name                   = "lb-security-group"
+  description            = "LB security group"
+  vpc_id                 = var.vpc-id
+  revoke_rules_on_delete = true
 
   // TCP
   ingress {
@@ -62,7 +63,7 @@ resource "aws_alb_target_group" "ecs-target-group" {
     healthy_threshold   = "2"
     unhealthy_threshold = "5"
     interval            = "30"
-    matcher             = "200"
+    matcher             = "200,302"
     path                = "/"
     protocol            = "HTTP"
     timeout             = "5"

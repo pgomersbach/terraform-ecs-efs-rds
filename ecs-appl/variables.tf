@@ -6,6 +6,14 @@ variable "ecs-service-role-arn" {}
 
 variable "ecs-service-name" {}
 
+variable "target-lb-url" {
+  default = "dummy-lb-url"
+}
+
+variable "kibana-lb-url" {
+  default = "dummy-kibana-url"
+}
+
 variable "vpc-id" {}
 
 variable "lb-port" {}

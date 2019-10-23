@@ -3,6 +3,9 @@ data "template_file" "task-template" {
 
   vars = {
     ecs-service-name = "${var.ecs-service-name}"
+    hosted-zone      = "${var.hosted-zone}"
+    target-lb-url    = "${var.target-lb-url}"
+    kibana-lb-url    = "${var.kibana-lb-url}"
     port             = "${var.lb-port}"
     memory           = "${var.memory}"
     cpu              = "${var.cpu}"

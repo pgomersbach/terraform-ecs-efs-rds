@@ -1,0 +1,183 @@
+[
+    {
+        "logConfiguration": {
+            "logDriver": "awslogs",
+            "options": {
+                "awslogs-create-group": "true",
+                "awslogs-group": "ecslogs",
+                "awslogs-region": "eu-central-1",
+                "awslogs-stream-prefix": "elk"
+            }
+        },
+        "mountPoints": [
+            {
+                "readOnly": true,
+                "containerPath": "/var/run/docker.sock",
+                "sourceVolume": "volume-filebeat-sock"
+            },
+            {
+                "readOnly": true,
+                "containerPath": "/var/lib/docker/containers",
+                "sourceVolume": "volume-filebeat-containers"
+            },
+            {
+                "readOnly": true,
+                "containerPath": "/var/log",
+                "sourceVolume": "volume-filebeat-log"
+            }
+        ],
+        "image": "612516126697.dkr.ecr.eu-central-1.amazonaws.com/filebeat-73-cd",
+        "healthCheck": {
+          "retries": 10,
+          "command": [
+            "CMD",
+            "filebeat",
+            "test",
+            "config"
+          ],
+          "timeout": 5,
+          "interval": 30,
+          "startPeriod": 180
+        },
+        "essential": true,
+        "name": "filebeat",
+        "user": "root",
+        "memory": 256,
+        "family": "elk",
+        "networkMode": "bridge",
+        "requiresCompatibilities": [
+            "EC2"
+        ],
+        "cpu": 128,
+        "command": [
+            "filebeat",
+            "-e",
+            "-strict.perms=false"
+        ],
+        "environment": [
+            { "name" : "LS_JAVA_OPTS", "value": "-Xmx128m -Xms128m" },
+            { "name" : "ELASTICSEARCH_HOSTS", "value" : "${target-lb-url}:80" },
+            { "name" : "KIBANA-LB-URL", "value" : "${kibana-lb-url}:80" }
+        ]
+    },
+    {
+        "logConfiguration": {
+            "logDriver": "awslogs",
+            "options": {
+                "awslogs-create-group": "true",
+                "awslogs-group": "ecslogs",
+                "awslogs-region": "eu-central-1",
+                "awslogs-stream-prefix": "elk"
+            }
+        },
+        "mountPoints": [
+            {
+                "readOnly": true,
+                "containerPath": "/var/run/docker.sock",
+                "sourceVolume": "volume-metricbeat-sock"
+            },
+            {
+                "readOnly": true,
+                "containerPath": "/hostfs/sys/fs/cgroup",
+                "sourceVolume": "volume-metricbeat-cgroup"
+            },
+            {
+                "readOnly": true,
+                "containerPath": "/hostfs/proc",
+                "sourceVolume": "volume-metricbeat-proc"
+            }
+        ],
+        "image": "612516126697.dkr.ecr.eu-central-1.amazonaws.com/metricbeat-73-cd",
+        "healthCheck": {
+           "retries": 6,
+           "command": [
+             "CMD",
+             "metricbeat",
+             "test",
+             "config"
+           ],
+           "timeout": 5,
+           "interval": 30,
+           "startPeriod": null
+        },
+        "essential": false,
+        "name": "metricbeat",
+        "user": "root",
+        "memory": 256,
+        "family": "elk",
+        "networkMode": "bridge",
+        "requiresCompatibilities": [
+            "EC2"
+        ],
+        "cpu": 128,
+        "command": [
+            "metricbeat",
+            "-e",
+            "-system.hostfs=/hostfs",
+            "-strict.perms=false"
+        ],
+        "linuxParameters": {
+           "capabilities": {
+             "add": [
+               "SYS_PTRACE"
+             ]
+           }
+        },
+        "environment": [
+            { "name" : "LS_JAVA_OPTS", "value": "-Xmx128m -Xms128m" },
+            { "name" : "ELASTICSEARCH_HOSTS", "value" : "${target-lb-url}:80" },
+            { "name" : "KIBANA-LB-URL", "value" : "${kibana-lb-url}:80" }
+        ]
+    },
+    {
+        "logConfiguration": {
+            "logDriver": "awslogs",
+            "options": {
+                "awslogs-create-group": "true",
+                "awslogs-group": "ecslogs",
+                "awslogs-region": "eu-central-1",
+                "awslogs-stream-prefix": "elk"
+            }
+        },
+        "mountPoints": [
+            {
+                "readOnly": true,
+                "containerPath": "/var/run/docker.sock",
+                "sourceVolume": "volume-heartbeat-sock"
+            }
+        ],
+        "image": "612516126697.dkr.ecr.eu-central-1.amazonaws.com/heartbeat-73-cd",
+        "healthCheck": {
+          "retries": 10,
+          "command": [
+            "CMD",
+            "heartbeat",
+            "test",
+            "config"
+          ],
+          "timeout": 5,
+          "interval": 30,
+          "startPeriod": 180
+        },
+        "essential": false,
+        "name": "heartbeat",
+        "user": "root",
+        "memory": 256,
+        "family": "elk",
+        "networkMode": "bridge",
+        "requiresCompatibilities": [
+            "EC2"
+        ],
+        "cpu": 128,
+        "command": [
+            "heartbeat",
+            "-e",
+            "-strict.perms=false"
+        ],
+        "environment": [
+            { "name" : "LS_JAVA_OPTS", "value": "-Xmx128m -Xms128m" },
+            { "name" : "ELASTICSEARCH_HOSTS", "value" : "${target-lb-url}:80" },
+            { "name" : "KIBANA-LB-URL", "value" : "${kibana-lb-url}:80" }
+        ]
+    }
+]
