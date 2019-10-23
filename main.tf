@@ -3,6 +3,16 @@ provider "aws" {
   profile = var.aws-profile-name
 }
 
+/*
+terraform {
+  backend "s3" {
+    bucket  = "mn-cd-terraform-state"
+    key     = "mn-d01-cd"
+    region  = "eu-central-1"
+    profile = "mn-d01-cd"
+  }
+}
+*/
 data "aws_vpc" "default-vpc" {
   filter {
     name   = "tag:Name"
@@ -38,6 +48,7 @@ module "ec2" {
   ecs-key-pair-name         = var.ecs-key-pair-name
 }
 
+/*
 module "rds" {
   source            = "./rds"
   environment       = "production"
@@ -50,6 +61,7 @@ module "rds" {
   vpc_id            = data.aws_vpc.default-vpc.id
   instance_class    = "db.t2.micro"
 }
+*/
 
 module "ecs" {
   source               = "./ecs"

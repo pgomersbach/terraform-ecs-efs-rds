@@ -13,10 +13,10 @@
 # ebs volume opties, size, type iops
 # test loadbalancer vanuit mn
 # health check toevoegen aan taak
+# rds toevoegen
 es gebruik datavol nakijken
 modules herbruikbaar maken
 name resources from env/name
-rds toevoegen
 kiezen tussen standaard taak of eigen taak definitie
 auto scaling instances
 name resources from env/name
