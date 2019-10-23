@@ -13,45 +13,45 @@ resource "aws_ecs_task_definition" "my-task" {
       autoprovision = true
       driver        = "rexray/${var.storage-type}"
       driver_opts = {
-        size = 110
+        size       = 110
         volumetype = "gp2"
       }
     }
   }
 
   volume {
-    name = "volume-filebeat-sock"
+    name      = "volume-filebeat-sock"
     host_path = "/var/run/docker.sock"
   }
 
   volume {
-    name = "volume-filebeat-containers"
+    name      = "volume-filebeat-containers"
     host_path = "/var/lib/docker/containers"
   }
 
   volume {
-    name = "volume-filebeat-log"
+    name      = "volume-filebeat-log"
     host_path = "/var/log"
   }
 
 
   volume {
-    name = "volume-heartbeat-sock"
+    name      = "volume-heartbeat-sock"
     host_path = "/var/run/docker.sock"
   }
 
   volume {
-    name = "volume-metricbeat-sock"
+    name      = "volume-metricbeat-sock"
     host_path = "/var/run/docker.sock"
   }
 
   volume {
-    name = "volume-metricbeat-cgroup"
+    name      = "volume-metricbeat-cgroup"
     host_path = "/sys/fs/cgroup"
   }
 
   volume {
-    name = "volume-metricbeat-proc"
+    name      = "volume-metricbeat-proc"
     host_path = "/proc"
   }
 

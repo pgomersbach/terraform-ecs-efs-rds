@@ -13,6 +13,7 @@ terraform {
   }
 }
 */
+
 data "aws_vpc" "default-vpc" {
   filter {
     name   = "tag:Name"
@@ -21,7 +22,7 @@ data "aws_vpc" "default-vpc" {
 }
 
 data "aws_subnet_ids" "all-sub" {
-   vpc_id = data.aws_vpc.default-vpc.id
+  vpc_id = data.aws_vpc.default-vpc.id
 
   filter {
     name   = "tag:Name"
@@ -64,23 +65,24 @@ module "rds" {
 */
 
 module "ecs" {
-  source               = "./ecs"
-  ecs-cluster-name     = "${var.aws-profile-name}-ecs-cluster"
+  source           = "./ecs"
+  ecs-cluster-name = "${var.aws-profile-name}-ecs-cluster"
 }
 
 module "ecs-appl" {
-  source               = "./ecs-appl"
-  lb-port              = 5601
-  ecs-service-name     = "kibana"
-  memory               = 8192
-  cpu                  = 2048
-  container-path       = "/esdata"
-  storage-type         = "ebs"  # efs | ebs 
+  source                 = "./ecs-appl"
+  lb-port                = 9200
+  ecs-service-name       = "elasticsearch"
+  lb                     = ["alb"] # ["alb"] |  [] 
+  memory                 = 8192
+  cpu                    = 2048
+  container-path         = "/esdata"
+  storage-type           = "ebs"     # efs | ebs 
   service-sched-strategy = "REPLICA" # DAEMON | REPLICA
-  vpc-id               = data.aws_vpc.default-vpc.id
-  subnet-ids           = data.aws_subnet_ids.all-sub.ids
-  ecs-target-group-arn = module.ecs-appl.ecs-target-group-arn
-  aws_ecs_cluster_id   = module.ecs.demo-ecs-cluster_id
-  ecs-service-role-arn = module.iam.ecs-service-role-arn
+  hosted-zone            = var.hosted-zone
+  vpc-id                 = data.aws_vpc.default-vpc.id
+  subnet-ids             = data.aws_subnet_ids.all-sub.ids
+  aws_ecs_cluster_id     = module.ecs.demo-ecs-cluster_id
+  ecs-service-role-arn   = module.iam.ecs-service-role-arn
 }
 

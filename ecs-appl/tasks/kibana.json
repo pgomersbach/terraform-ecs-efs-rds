@@ -1,0 +1,55 @@
+[
+    {
+        "logConfiguration": {
+            "logDriver": "awslogs",
+            "options": {
+                "awslogs-create-group": "true",
+                "awslogs-group": "ecslogs",
+                "awslogs-region": "eu-central-1",
+                "awslogs-stream-prefix": "elk"
+            }
+        },
+        "image": "612516126697.dkr.ecr.eu-central-1.amazonaws.com/kibana-73-cd",
+        "portMappings": [
+           {
+             "hostPort": 5601,
+             "protocol": "tcp",
+             "containerPort": 5601
+           }
+        ],
+        "dependsOn": [
+            {
+                "containerName": "elasticsearch",
+                "condition": "HEALTHY"
+            }
+        ],
+        "healthCheck": {
+           "retries": 6,
+           "command": [
+             "CMD",
+             "curl",
+             "-s",
+             "-f",
+             "http://localhost:5601/"
+           ],
+           "timeout": 5,
+           "interval": 30,
+           "startPeriod": null
+        },
+        "essential": false,
+        "links": [
+          "elasticsearch"
+        ],
+        "name": "kibana",
+        "memory": 1024,
+        "family": "elk",
+        "networkMode": "bridge",
+        "requiresCompatibilities": [
+            "EC2"
+        ],
+        "cpu": 128,
+        "environment" : [
+            { "name" : "ES_JAVA_OPTS", "value" : "-Xmx256m -Xms256m" }
+        ]
+    }
+]

@@ -1,5 +1,5 @@
 data "template_file" "task-template" {
-  template = file("./ecs-appl/${var.ecs-service-name}.json")
+  template = file("./ecs-appl/tasks/${var.ecs-service-name}.json")
 
   vars = {
     ecs-service-name = "${var.ecs-service-name}"

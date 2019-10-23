@@ -14,7 +14,9 @@
 # test loadbalancer vanuit mn
 # health check toevoegen aan taak
 # rds toevoegen
-kiezen tussen standaard taak of eigen taak definitie
+# r53 aan lb toevoegen
+# load balancer kiezen
+# kiezen tussen standaard taak of eigen taak definitie
 es gebruik datavol nakijken
 modules herbruikbaar maken
 name resources from env/name
@@ -23,7 +25,6 @@ name resources from env/name
 toevoegen tags
 output zinvolle info na deployment
 verwijder mount target als destroy optie
-r53 aan lb toevoegen
 add remote state
 gebruik workspaces
 install elk stack in twee delen, deamon en replica

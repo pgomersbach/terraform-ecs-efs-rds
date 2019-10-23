@@ -13,6 +13,11 @@ variable "ecs-key-pair-name" {
   default     = "mn-paulg"
 }
 
+variable "hosted-zone" {
+  description = "predefined hosted zone"
+  default     = "d01-cd.aws-internal-mn.nl"
+}
+
 variable "production_database_name" {
   description = "Database name"
   default     = "postgres"

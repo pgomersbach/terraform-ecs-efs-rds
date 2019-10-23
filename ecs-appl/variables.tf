@@ -1,4 +1,4 @@
-variable "ecs-target-group-arn" {}
+# variable "ecs-target-group-arn" {}
 
 variable "aws_ecs_cluster_id" {}
 
@@ -10,18 +10,24 @@ variable "vpc-id" {}
 
 variable "lb-port" {}
 
-# variable "image" {}
+variable "hosted-zone" {}
+
+variable "lb" {
+  type = list(string)
+  # default = ["alb"]
+  default = []
+}
 
 variable "cpu" {}
 
 variable "memory" {}
 
-variable "container-path" {} 
+variable "container-path" {}
 
 variable "storage-type" {}
 
 variable "service-sched-strategy" {
-  default="REPLICA"
+  default = "REPLICA"
 }
 
 #variable "load-balancer-name" {

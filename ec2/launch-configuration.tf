@@ -36,8 +36,8 @@ resource "aws_launch_configuration" "ecs-launch-configuration" {
   user_data                   = "${data.template_file.ecs-launch-configuration-user-data.rendered}"
 
   root_block_device {
-    volume_type = "standard"
-    volume_size = 100
+    volume_type           = "standard"
+    volume_size           = 100
     delete_on_termination = true
   }
 
