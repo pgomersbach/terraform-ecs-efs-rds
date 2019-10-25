@@ -104,6 +104,25 @@ module "kibana" {
   ecs-service-role-arn   = module.iam.ecs-service-role-arn
 }
 
+module "apm-server" {
+  source                 = "./ecs-appl"
+  lb-port                = 8200
+  ecs-service-name       = "apm-server"
+  lb                     = ["alb"] # ["alb"] |  []
+  target-lb-url          = "http://${module.elasticsearch.ecs-load-balancer-alias}"
+  kibana-lb-url          = "http://${module.kibana.ecs-load-balancer-alias}"
+  memory                 = 1024
+  cpu                    = 512
+  container-path         = "/esdata"
+  storage-type           = "ebs"     # efs | ebs
+  service-sched-strategy = "REPLICA" # DAEMON | REPLICA
+  hosted-zone            = var.hosted-zone
+  vpc-id                 = data.aws_vpc.default-vpc.id
+  subnet-ids             = data.aws_subnet_ids.all-sub.ids
+  aws_ecs_cluster_id     = module.ecs.demo-ecs-cluster_id
+  ecs-service-role-arn   = module.iam.ecs-service-role-arn
+}
+
 module "beats" {
   source                 = "./ecs-appl"
   lb-port                = 5601
