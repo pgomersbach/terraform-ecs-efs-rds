@@ -23,7 +23,7 @@
         ],
         "mountPoints": [
             {
-                "containerPath": "/esdata",
+                "containerPath": "/usr/share/elasticsearch/data",
                 "sourceVolume": "rexray-ebs-vol"
             }
         ],
@@ -43,13 +43,11 @@
         },
         "essential": true,
         "name": "elasticsearch",
-        "memory": 4096,
         "family": "elk",
         "networkMode": "bridge",
         "requiresCompatibilities": [
             "EC2"
         ],
-        "cpu": 512,
         "environment" : [
             { "name" : "ES_JAVA_OPTS", "value" : "-Xmx768m -Xms768m" },
             { "name" : "bootstrap.memory_lock", "value" : "false" }
@@ -80,13 +78,11 @@
           "elasticsearch"
         ],
         "name": "elasticsearch-post",
-        "memory": 256,
         "family": "elk",
         "networkMode": "bridge",
         "requiresCompatibilities": [
             "EC2"
         ],
-        "cpu": 128,
         "environment" : [
             { "name" : "ES_JAVA_OPTS", "value" : "-Xmx128m -Xms128m" }
         ]

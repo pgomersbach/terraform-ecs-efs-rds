@@ -23,8 +23,10 @@
 # output zinvolle info na deployment
 # install elk stack in twee delen, deamon en replica
 # voeg apm-server toe
-apm-server health check
-apm-server in heartbeat
+# apm-server health check
+# apm-server in heartbeat
+logstash toevoegen
+add task number (bij replica)
 es gebruik datavol nakijken
 name resources from env/name
 auto scaling instances
