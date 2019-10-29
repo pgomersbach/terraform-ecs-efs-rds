@@ -90,9 +90,17 @@ resource "aws_ecs_service" "demo-ecs-service" {
   name                = var.ecs-service-name
   cluster             = var.aws_ecs_cluster_id
   task_definition     = aws_ecs_task_definition.my-task.arn
-  desired_count       = 1
+  desired_count       = var.desired-count
   scheduling_strategy = var.service-sched-strategy
   depends_on          = [aws_alb_listener.alb-listener]
+
+  dynamic "ordered_placement_strategy" {
+    for_each = local.lb
+    content {
+      type  = "spread"
+      field = "attribute:ecs.availability-zone"
+    }
+  }
 
   dynamic "load_balancer" {
     for_each = local.lb

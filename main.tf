@@ -97,6 +97,7 @@ module "kibana" {
   container-path         = "/esdata"
   storage-type           = "ebs"     # efs | ebs
   service-sched-strategy = "REPLICA" # DAEMON | REPLICA
+  desired-count          = 2
   hosted-zone            = var.hosted-zone
   vpc-id                 = data.aws_vpc.default-vpc.id
   subnet-ids             = data.aws_subnet_ids.all-sub.ids
@@ -116,6 +117,7 @@ module "apm-server" {
   container-path         = "/esdata"
   storage-type           = "ebs"     # efs | ebs
   service-sched-strategy = "REPLICA" # DAEMON | REPLICA
+  desired-count          = 2
   hosted-zone            = var.hosted-zone
   vpc-id                 = data.aws_vpc.default-vpc.id
   subnet-ids             = data.aws_subnet_ids.all-sub.ids

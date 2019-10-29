@@ -26,12 +26,11 @@
 # apm-server health check
 # apm-server in heartbeat
 # install elk stack in twee delen, deamon en replica
+# add task number (bij replica)
 auto scaling instances
-add task number (bij replica)
 logstash toevoegen
 es gebruik datavol nakijken
-name resources from env/name
-name resources from env/name
+tag resources from env/name
 toevoegen tags
 verwijder mount target als destroy optie
 add remote state

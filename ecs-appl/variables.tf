@@ -42,13 +42,8 @@ variable "service-sched-strategy" {
   default = "REPLICA"
 }
 
-#variable "load-balancer-name" {
-#  description = "The name for the autoscaling group for the cluster."
-#}
-
-#variable "target-group-name" {
-#  description = "The name for the autoscaling group for the cluster."
-#}
-
+variable "desired-count" { 
+  default = 1
+}
 variable "subnet-ids" {}
 
