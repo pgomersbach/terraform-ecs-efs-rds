@@ -130,6 +130,7 @@ module "beats" {
   lb                     = [] # ["alb"] |  []
   target-lb-url          = "http://${module.elasticsearch.ecs-load-balancer-alias}"
   kibana-lb-url          = "http://${module.kibana.ecs-load-balancer-alias}"
+  apm-server-lb-url      = "http://${module.apm-server.ecs-load-balancer-alias}"
   memory                 = 1024
   cpu                    = 512
   container-path         = "/esdata"

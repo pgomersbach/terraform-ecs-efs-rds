@@ -14,6 +14,10 @@ variable "kibana-lb-url" {
   default = "dummy-kibana-url"
 }
 
+variable "apm-server-lb-url" {
+  default = "dummy-apm-server-url"
+}
+
 variable "vpc-id" {}
 
 variable "lb-port" {}
