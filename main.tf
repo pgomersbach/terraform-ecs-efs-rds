@@ -82,7 +82,7 @@ module "elasticsearch" {
   cpu                    = 2048
   deployment-max         = 100
   deployment-min         = 0
-  container-path         = "/esdata"
+  container-path         = "esdata"
   storage-type           = "ebs"     # efs | ebs 
   service-sched-strategy = "REPLICA" # DAEMON | REPLICA
   hosted-zone            = var.hosted-zone
@@ -101,7 +101,7 @@ module "kibana" {
   target-lb-url          = "http://${module.elasticsearch.ecs-load-balancer-alias}"
   memory                 = 2048
   cpu                    = 1024
-  container-path         = "/esdata"
+  container-path         = "esdata"
   storage-type           = "ebs"     # efs | ebs
   service-sched-strategy = "REPLICA" # DAEMON | REPLICA
   desired-count          = 2
@@ -122,7 +122,7 @@ module "apm-server" {
   kibana-lb-url          = "http://${module.kibana.ecs-load-balancer-alias}"
   memory                 = 1024
   cpu                    = 512
-  container-path         = "/esdata"
+  container-path         = "esdata"
   storage-type           = "ebs"     # efs | ebs
   service-sched-strategy = "REPLICA" # DAEMON | REPLICA
   desired-count          = 2
@@ -144,7 +144,7 @@ module "beats" {
   apm-server-lb-url      = "http://${module.apm-server.ecs-load-balancer-alias}"
   memory                 = 256
   cpu                    = 128
-  container-path         = "/esdata"
+  container-path         = "esdata"
   storage-type           = "ebs"     # efs | ebs
   service-sched-strategy = "DAEMON" # DAEMON | REPLICA
   hosted-zone            = var.hosted-zone
