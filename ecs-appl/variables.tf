@@ -45,5 +45,16 @@ variable "service-sched-strategy" {
 variable "desired-count" { 
   default = 1
 }
+
+variable "deployment-max" {
+  default = 150
+}
+
+variable "deployment-min" {
+  default = 50
+}
+
 variable "subnet-ids" {}
+
+variable "av-names" {} 
 

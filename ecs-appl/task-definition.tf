@@ -6,6 +6,11 @@ resource "aws_ecs_task_definition" "my-task" {
   network_mode             = "bridge"
   container_definitions    = data.template_file.task-template.rendered
 
+  placement_constraints {
+    type       = "memberOf"
+    expression = "attribute:ecs.availability-zone in [${var.av-names}]"
+  }
+
   volume {
     name = "rexray-${var.storage-type}-vol"
     docker_volume_configuration {
@@ -33,7 +38,6 @@ resource "aws_ecs_task_definition" "my-task" {
     name      = "volume-filebeat-log"
     host_path = "/var/log"
   }
-
 
   volume {
     name      = "volume-heartbeat-sock"

@@ -42,13 +42,11 @@
         "essential": true,
         "name": "filebeat",
         "user": "root",
-        "memory": 256,
         "family": "elk",
         "networkMode": "bridge",
         "requiresCompatibilities": [
             "EC2"
         ],
-        "cpu": 128,
         "command": [
             "filebeat",
             "-e",
@@ -103,13 +101,11 @@
         "essential": false,
         "name": "metricbeat",
         "user": "root",
-        "memory": 256,
         "family": "elk",
         "networkMode": "bridge",
         "requiresCompatibilities": [
             "EC2"
         ],
-        "cpu": 128,
         "command": [
             "metricbeat",
             "-e",
@@ -162,13 +158,11 @@
         "essential": false,
         "name": "heartbeat",
         "user": "root",
-        "memory": 256,
         "family": "elk",
         "networkMode": "bridge",
         "requiresCompatibilities": [
             "EC2"
         ],
-        "cpu": 128,
         "command": [
             "heartbeat",
             "-e",

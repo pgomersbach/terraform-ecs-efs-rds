@@ -87,12 +87,14 @@ resource "aws_alb_listener" "alb-listener" {
 }
 
 resource "aws_ecs_service" "demo-ecs-service" {
-  name                = var.ecs-service-name
-  cluster             = var.aws_ecs_cluster_id
-  task_definition     = aws_ecs_task_definition.my-task.arn
-  desired_count       = var.desired-count
-  scheduling_strategy = var.service-sched-strategy
-  depends_on          = [aws_alb_listener.alb-listener]
+  name                               = var.ecs-service-name
+  cluster                            = var.aws_ecs_cluster_id
+  task_definition                    = aws_ecs_task_definition.my-task.arn
+  desired_count                      = var.desired-count
+  scheduling_strategy                = var.service-sched-strategy
+  depends_on                         = [aws_alb_listener.alb-listener]
+  deployment_maximum_percent         = var.deployment-max
+  deployment_minimum_healthy_percent = var.deployment-min
 
   dynamic "ordered_placement_strategy" {
     for_each = local.lb

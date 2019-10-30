@@ -27,9 +27,13 @@
 # apm-server in heartbeat
 # install elk stack in twee delen, deamon en replica
 # add task number (bij replica)
-auto scaling instances
+# auto scaling instances
 logstash toevoegen
+kibana custom dashboards
 es gebruik datavol nakijken
+redundant es cluster (wacht op name resolving)
+ssl keys toevoegen aan loadbalancer
+auth toevoegen aan es cluster
 tag resources from env/name
 toevoegen tags
 verwijder mount target als destroy optie

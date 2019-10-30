@@ -14,6 +14,10 @@ terraform {
 }
 */
 
+data "aws_availability_zones" "available" {
+  state = "available"
+}
+
 data "aws_vpc" "default-vpc" {
   filter {
     name   = "tag:Name"
@@ -36,10 +40,10 @@ module "iam" {
 
 module "ec2" {
   source                    = "./ec2"
-  max-instance-size         = 4
-  min-instance-size         = 2
+  max-instance-size         = 9
+  min-instance-size         = 3
   desired-capacity          = 3
-  instance-type             = "t3.xlarge"
+  instance-type             = "c5.xlarge"
   vpc-id                    = data.aws_vpc.default-vpc.id
   subnet-ids                = data.aws_subnet_ids.all-sub.ids
   ecs-instance-role-name    = module.iam.ecs-instance-role-name
@@ -74,14 +78,17 @@ module "elasticsearch" {
   lb-port                = 9200
   ecs-service-name       = "elasticsearch"
   lb                     = ["alb"] # ["alb"] |  [] 
-  memory                 = 8192
+  memory                 = 4096
   cpu                    = 2048
+  deployment-max         = 100
+  deployment-min         = 0
   container-path         = "/esdata"
   storage-type           = "ebs"     # efs | ebs 
   service-sched-strategy = "REPLICA" # DAEMON | REPLICA
   hosted-zone            = var.hosted-zone
   vpc-id                 = data.aws_vpc.default-vpc.id
   subnet-ids             = data.aws_subnet_ids.all-sub.ids
+  av-names               = element(data.aws_availability_zones.available.names,0)
   aws_ecs_cluster_id     = module.ecs.demo-ecs-cluster_id
   ecs-service-role-arn   = module.iam.ecs-service-role-arn
 }
@@ -101,6 +108,7 @@ module "kibana" {
   hosted-zone            = var.hosted-zone
   vpc-id                 = data.aws_vpc.default-vpc.id
   subnet-ids             = data.aws_subnet_ids.all-sub.ids
+  av-names               = join(", ", data.aws_availability_zones.available.names)
   aws_ecs_cluster_id     = module.ecs.demo-ecs-cluster_id
   ecs-service-role-arn   = module.iam.ecs-service-role-arn
 }
@@ -121,6 +129,7 @@ module "apm-server" {
   hosted-zone            = var.hosted-zone
   vpc-id                 = data.aws_vpc.default-vpc.id
   subnet-ids             = data.aws_subnet_ids.all-sub.ids
+  av-names               = join(", ", data.aws_availability_zones.available.names)
   aws_ecs_cluster_id     = module.ecs.demo-ecs-cluster_id
   ecs-service-role-arn   = module.iam.ecs-service-role-arn
 }
@@ -133,14 +142,15 @@ module "beats" {
   target-lb-url          = "http://${module.elasticsearch.ecs-load-balancer-alias}"
   kibana-lb-url          = "http://${module.kibana.ecs-load-balancer-alias}"
   apm-server-lb-url      = "http://${module.apm-server.ecs-load-balancer-alias}"
-  memory                 = 1024
-  cpu                    = 512
+  memory                 = 512
+  cpu                    = 256
   container-path         = "/esdata"
   storage-type           = "ebs"     # efs | ebs
   service-sched-strategy = "DAEMON" # DAEMON | REPLICA
   hosted-zone            = var.hosted-zone
   vpc-id                 = data.aws_vpc.default-vpc.id
   subnet-ids             = data.aws_subnet_ids.all-sub.ids
+  av-names               = join(", ", data.aws_availability_zones.available.names)
   aws_ecs_cluster_id     = module.ecs.demo-ecs-cluster_id
   ecs-service-role-arn   = module.iam.ecs-service-role-arn
 }
