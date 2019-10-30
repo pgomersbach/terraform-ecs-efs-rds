@@ -27,6 +27,7 @@ resource "aws_autoscaling_policy" "ecs-autoscaling-policy-memory" {
 
   autoscaling_group_name    = var.autoscaling-group-name
   depends_on                = [aws_autoscaling_group.ecs-autoscaling-group]
+  estimated_instance_warmup = 300
   policy_type               = "TargetTrackingScaling"
 
   target_tracking_configuration {
@@ -50,6 +51,7 @@ resource "aws_autoscaling_policy" "ecs-autoscaling-policy-cpu" {
 
   autoscaling_group_name    = var.autoscaling-group-name
   depends_on                = [aws_autoscaling_group.ecs-autoscaling-group]
+  estimated_instance_warmup = 300
   policy_type               = "TargetTrackingScaling"
 
   target_tracking_configuration {
