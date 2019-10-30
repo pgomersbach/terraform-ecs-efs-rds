@@ -142,8 +142,8 @@ module "beats" {
   target-lb-url          = "http://${module.elasticsearch.ecs-load-balancer-alias}"
   kibana-lb-url          = "http://${module.kibana.ecs-load-balancer-alias}"
   apm-server-lb-url      = "http://${module.apm-server.ecs-load-balancer-alias}"
-  memory                 = 512
-  cpu                    = 256
+  memory                 = 256
+  cpu                    = 128
   container-path         = "/esdata"
   storage-type           = "ebs"     # efs | ebs
   service-sched-strategy = "DAEMON" # DAEMON | REPLICA
