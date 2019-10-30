@@ -99,8 +99,8 @@ module "kibana" {
   ecs-service-name       = "kibana"
   lb                     = ["alb"] # ["alb"] |  []
   target-lb-url          = "http://${module.elasticsearch.ecs-load-balancer-alias}"
-  memory                 = 1024
-  cpu                    = 512
+  memory                 = 2048
+  cpu                    = 1024
   container-path         = "/esdata"
   storage-type           = "ebs"     # efs | ebs
   service-sched-strategy = "REPLICA" # DAEMON | REPLICA

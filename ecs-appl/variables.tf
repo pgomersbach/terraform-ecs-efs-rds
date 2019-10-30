@@ -47,7 +47,7 @@ variable "desired-count" {
 }
 
 variable "deployment-max" {
-  default = 150
+  default = 100
 }
 
 variable "deployment-min" {

@@ -52,11 +52,12 @@ resource "aws_security_group" "lb-security-group" {
 }
 
 resource "aws_alb_target_group" "ecs-target-group" {
-  for_each = local.lb
-  name     = "tg-${var.ecs-service-name}"
-  port     = var.lb-port
-  protocol = "HTTP"
-  vpc_id   = var.vpc-id
+  for_each             = local.lb
+  name                 = "tg-${var.ecs-service-name}"
+  port                 = var.lb-port
+  protocol             = "HTTP"
+  vpc_id               = var.vpc-id
+  deregistration_delay = 120
 
   health_check {
     port                = var.lb-port
