@@ -28,10 +28,10 @@
 # install elk stack in twee delen, deamon en replica
 # add task number (bij replica)
 # auto scaling instances
-logstash toevoegen
+schematische weergave elk stack
 kibana custom dashboards
 es gebruik datavol nakijken
-redundant es cluster (wacht op name resolving)
+redundant es cluster (wacht op name resolving of bedenk een list)
 ssl keys toevoegen aan loadbalancer
 auth toevoegen aan es cluster
 tag resources from env/name
