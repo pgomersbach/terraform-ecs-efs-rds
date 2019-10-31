@@ -38,7 +38,6 @@
             "EC2"
         ],
         "environment" : [
-            { "name" : "ES_JAVA_OPTS", "value" : "-Xmx256m -Xms256m" },
             { "name" : "ELASTICSEARCH_HOSTS", "value" : "${target-lb-url}" }
         ]
     }

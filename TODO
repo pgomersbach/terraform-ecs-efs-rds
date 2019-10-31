@@ -40,3 +40,5 @@ verwijder mount target als destroy optie
 add remote state
 gebruik workspaces
 change README
+documentatie update elk
+documentatie gebruik tf ecs
