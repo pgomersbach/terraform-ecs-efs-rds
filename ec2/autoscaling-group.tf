@@ -23,6 +23,11 @@ resource "aws_autoscaling_group" "ecs-autoscaling-group" {
       key                 = "UnitName"
       value               = var.unit-name
       propagate_at_launch = true
+    },
+    {
+      key                 = "Workspace"
+      value               = "${terraform.workspace}"
+      propagate_at_launch = true
     }
   ]
 }

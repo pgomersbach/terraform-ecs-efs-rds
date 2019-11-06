@@ -4,13 +4,14 @@ locals {
 
 resource "aws_alb" "ecs-load-balancer" {
   for_each        = local.lb
-  name            = "alb-${var.ecs-service-name}"
+  name            = "alb-${var.ecs-service-name}-${terraform.workspace}"
   internal        = true
   security_groups = [aws_security_group.lb-security-group[each.key].id]
   subnets         = var.subnet-ids
   tags        = {
     AplicationName = var.application-name,
     UnitName       = var.unit-name
+    Workspace      = "${terraform.workspace}"
   }
 }
 
@@ -22,7 +23,7 @@ data "aws_route53_zone" "selected" {
 resource "aws_route53_record" "service" {
   for_each = local.lb
   zone_id  = data.aws_route53_zone.selected.zone_id
-  name     = var.ecs-service-name
+  name     = "${var.ecs-service-name}-${terraform.workspace}"
   type     = "A"
 
   alias {
@@ -40,6 +41,7 @@ resource "aws_security_group" "lb-security-group" {
   tags        = {
     AplicationName = var.application-name,
     UnitName       = var.unit-name
+    Workspace      = "${terraform.workspace}"
   }
 
   // TCP
@@ -68,6 +70,7 @@ resource "aws_alb_target_group" "ecs-target-group" {
   tags        = {
     AplicationName = var.application-name,
     UnitName       = var.unit-name
+    Workspace      = "${terraform.workspace}"
   }
 
   health_check {

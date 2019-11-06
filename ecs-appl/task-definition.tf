@@ -8,6 +8,7 @@ resource "aws_ecs_task_definition" "my-task" {
   tags        = {
     AplicationName = var.application-name,
     UnitName       = var.unit-name
+    Workspace      = "${terraform.workspace}"
   }
 
   placement_constraints {

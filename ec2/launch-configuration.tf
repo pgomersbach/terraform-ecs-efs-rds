@@ -53,6 +53,7 @@ resource "aws_security_group" "instance-security-group" {
   tags        = {
     AplicationName = var.application-name,
     UnitName       = var.unit-name
+    Workspace      = "${terraform.workspace}"
   }
 
   ingress {

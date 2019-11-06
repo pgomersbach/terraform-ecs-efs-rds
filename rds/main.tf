@@ -6,6 +6,7 @@ resource "aws_db_subnet_group" "rds_subnet_group" {
   tags        = {
     AplicationName = var.application-name,
     UnitName       = var.unit-name
+    Workspace      = "${terraform.workspace}"
   }
 }
 
@@ -17,6 +18,7 @@ resource "aws_security_group" "db_access_sg" {
   tags        = {
     AplicationName = var.application-name,
     UnitName       = var.unit-name
+    Workspace      = "${terraform.workspace}"
   }
 }
 
@@ -27,6 +29,7 @@ resource "aws_security_group" "rds_sg" {
   tags        = {
     AplicationName = var.application-name,
     UnitName       = var.unit-name
+    Workspace      = "${terraform.workspace}"
   }
 
   // allows traffic from the SG itself
@@ -70,5 +73,6 @@ resource "aws_db_instance" "rds" {
   tags        = {
     AplicationName = var.application-name,
     UnitName       = var.unit-name
+    Workspace      = "${terraform.workspace}"
   }
 }

@@ -30,19 +30,18 @@
 # auto scaling instances
 # tag resources from env/name
 # toevoegen tags
-
+# gebruik workspaces
 update naar tf laatste versie, na v0.12.10 foutmelding
 schematische weergave elk stack
 kibana custom dashboards
 es gebruik datavol nakijken
-add perf test voor ingest
 scheduled task toevoegen voor opruimen indices
 redundant es cluster (wacht op name resolving of bedenk een list)
 ssl keys toevoegen aan loadbalancer
 auth toevoegen aan es cluster
 verwijder mount target als destroy optie
 add remote state
-gebruik workspaces
+lockdown voor productie omgevingen
 change README
 documentatie update elk
 documentatie gebruik tf ecs
