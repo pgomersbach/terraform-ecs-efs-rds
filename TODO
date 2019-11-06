@@ -35,6 +35,8 @@ update naar tf laatste versie, na v0.12.10 foutmelding
 schematische weergave elk stack
 kibana custom dashboards
 es gebruik datavol nakijken
+add perf test voor ingest
+scheduled task toevoegen voor opruimen indices
 redundant es cluster (wacht op name resolving of bedenk een list)
 ssl keys toevoegen aan loadbalancer
 auth toevoegen aan es cluster
