@@ -14,9 +14,14 @@ resource "aws_autoscaling_group" "ecs-autoscaling-group" {
   }
 
   tags = [
+    { 
+      key                 = "ApplicationName"
+      value               = var.application-name
+      propagate_at_launch = true
+    },
     {
-      key                 = "ElasticSearch"
-      value               = "cd-es"
+      key                 = "UnitName"
+      value               = var.unit-name
       propagate_at_launch = true
     }
   ]
@@ -48,7 +53,6 @@ resource "aws_autoscaling_policy" "ecs-autoscaling-policy-memory" {
 
 resource "aws_autoscaling_policy" "ecs-autoscaling-policy-cpu" {
   name = "cpu-reservation"
-
   autoscaling_group_name    = var.autoscaling-group-name
   depends_on                = [aws_autoscaling_group.ecs-autoscaling-group]
   estimated_instance_warmup = 300

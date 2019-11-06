@@ -11,9 +11,6 @@ variable "vpc_id" {
   description = "The VPC id"
 }
 
-//variable "allowed_security_group_id" {
-//  description = "The allowed security group id to connect on RDS"
-//}
 
 variable "allocated_storage" {
   default     = "20"
@@ -43,3 +40,8 @@ variable "database_password" {
   default     = "testing123"
   description = "The password of the database"
 }
+
+variable "application-name"{}
+
+variable "unit-name" {}
+

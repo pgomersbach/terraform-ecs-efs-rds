@@ -50,6 +50,10 @@ resource "aws_security_group" "instance-security-group" {
   name        = "instance-security-group"
   description = "ephemeral, EFS and SSH"
   vpc_id      = var.vpc-id
+  tags        = {
+    AplicationName = var.application-name,
+    UnitName       = var.unit-name
+  }
 
   ingress {
     from_port   = 0

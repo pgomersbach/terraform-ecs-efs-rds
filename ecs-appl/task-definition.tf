@@ -5,6 +5,10 @@ resource "aws_ecs_task_definition" "my-task" {
   requires_compatibilities = ["EC2"]
   network_mode             = "bridge"
   container_definitions    = data.template_file.task-template.rendered
+  tags        = {
+    AplicationName = var.application-name,
+    UnitName       = var.unit-name
+  }
 
   placement_constraints {
     type       = "memberOf"

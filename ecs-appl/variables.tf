@@ -18,6 +18,10 @@ variable "apm-server-lb-url" {
   default = "dummy-apm-server-url"
 }
 
+variable "application-name" {}
+
+variable "unit-name" {}
+
 variable "vpc-id" {}
 
 variable "lb-port" {}

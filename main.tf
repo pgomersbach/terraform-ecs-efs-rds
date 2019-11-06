@@ -44,6 +44,8 @@ module "ec2" {
   min-instance-size         = 3
   desired-capacity          = 3
   instance-type             = "c5.xlarge"
+  application-name          = "${var.aws-profile-name}-ecs-cluster"
+  unit-name                 = var.unit-name
   vpc-id                    = data.aws_vpc.default-vpc.id
   subnet-ids                = data.aws_subnet_ids.all-sub.ids
   ecs-instance-role-name    = module.iam.ecs-instance-role-name
@@ -53,7 +55,7 @@ module "ec2" {
   ecs-key-pair-name         = var.ecs-key-pair-name
 }
 
-/*
+
 module "rds" {
   source            = "./rds"
   environment       = "production"
@@ -62,11 +64,13 @@ module "rds" {
   database_username = "${var.production_database_username}"
   database_password = "${var.production_database_password}"
   multi_az          = true
+  application-name  = "${var.aws-profile-name}-db-cluster"
+  unit-name         = var.unit-name
   subnet_ids        = data.aws_subnet_ids.all-sub.ids 
   vpc_id            = data.aws_vpc.default-vpc.id
   instance_class    = "db.t2.micro"
 }
-*/
+
 
 module "ecs" {
   source           = "./ecs"
@@ -77,6 +81,8 @@ module "elasticsearch" {
   source                 = "./ecs-appl"
   lb-port                = 9200
   ecs-service-name       = "elasticsearch"
+  application-name       = "${var.aws-profile-name}"
+  unit-name              = var.unit-name
   lb                     = ["alb"] # ["alb"] |  [] 
   memory                 = 4096
   cpu                    = 2048
@@ -97,6 +103,8 @@ module "kibana" {
   source                 = "./ecs-appl"
   lb-port                = 5601
   ecs-service-name       = "kibana"
+  application-name       = "${var.aws-profile-name}"
+  unit-name              = var.unit-name
   lb                     = ["alb"] # ["alb"] |  []
   target-lb-url          = "http://${module.elasticsearch.ecs-load-balancer-alias}"
   memory                 = 1024
@@ -117,6 +125,8 @@ module "apm-server" {
   source                 = "./ecs-appl"
   lb-port                = 8200
   ecs-service-name       = "apm-server"
+  application-name       = "${var.aws-profile-name}"
+  unit-name              = var.unit-name
   lb                     = ["alb"] # ["alb"] |  []
   target-lb-url          = "http://${module.elasticsearch.ecs-load-balancer-alias}"
   kibana-lb-url          = "http://${module.kibana.ecs-load-balancer-alias}"
@@ -138,6 +148,8 @@ module "beats" {
   source                 = "./ecs-appl"
   lb-port                = 5601
   ecs-service-name       = "beats"
+  application-name       = "${var.aws-profile-name}"
+  unit-name              = var.unit-name
   lb                     = [] # ["alb"] |  []
   target-lb-url          = "http://${module.elasticsearch.ecs-load-balancer-alias}"
   kibana-lb-url          = "http://${module.kibana.ecs-load-balancer-alias}"

@@ -23,6 +23,10 @@ variable "ecs-instance-profile-name" {
 variable "ecs-key-pair-name" {
 }
 
+variable "application-name"{}
+
+variable "unit-name" {}
+
 //----------------------------------------------------------------------
 // Autoscaling Group Variables
 //----------------------------------------------------------------------

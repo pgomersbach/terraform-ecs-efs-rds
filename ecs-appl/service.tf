@@ -8,6 +8,10 @@ resource "aws_alb" "ecs-load-balancer" {
   internal        = true
   security_groups = [aws_security_group.lb-security-group[each.key].id]
   subnets         = var.subnet-ids
+  tags        = {
+    AplicationName = var.application-name,
+    UnitName       = var.unit-name
+  }
 }
 
 data "aws_route53_zone" "selected" {
@@ -30,10 +34,13 @@ resource "aws_route53_record" "service" {
 
 resource "aws_security_group" "lb-security-group" {
   for_each               = local.lb
-#  name                   = "lb-security-group"
   description            = "LB security group"
   vpc_id                 = var.vpc-id
   revoke_rules_on_delete = true
+  tags        = {
+    AplicationName = var.application-name,
+    UnitName       = var.unit-name
+  }
 
   // TCP
   ingress {
@@ -58,6 +65,10 @@ resource "aws_alb_target_group" "ecs-target-group" {
   protocol             = "HTTP"
   vpc_id               = var.vpc-id
   deregistration_delay = 120
+  tags        = {
+    AplicationName = var.application-name,
+    UnitName       = var.unit-name
+  }
 
   health_check {
     port                = var.lb-port
@@ -80,7 +91,6 @@ resource "aws_alb_listener" "alb-listener" {
   load_balancer_arn = aws_alb.ecs-load-balancer[each.key].arn
   port              = 80 # var.lb-port
   protocol          = "HTTP"
-
   default_action {
     target_group_arn = aws_alb_target_group.ecs-target-group["alb"].arn
     type             = "forward"
