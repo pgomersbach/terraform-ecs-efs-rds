@@ -55,7 +55,7 @@ module "ec2" {
   ecs-key-pair-name         = var.ecs-key-pair-name
 }
 
-
+/*
 module "rds" {
   source            = "./rds"
   environment       = "production"
@@ -70,7 +70,7 @@ module "rds" {
   vpc_id            = data.aws_vpc.default-vpc.id
   instance_class    = "db.t2.micro"
 }
-
+*/
 
 module "ecs" {
   source           = "./ecs"

@@ -40,7 +40,7 @@ redundant es cluster (wacht op name resolving of bedenk een list)
 ssl keys toevoegen aan loadbalancer
 auth toevoegen aan es cluster
 verwijder mount target als destroy optie
-add remote state
+add remote state (geef als parameter workspace mee met de zelfde naam als profile, zet profile hetzelfde, weiger default profile)
 lockdown voor productie omgevingen
 change README
 documentatie update elk
