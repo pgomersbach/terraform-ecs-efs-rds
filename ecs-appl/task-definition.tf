@@ -1,3 +1,8 @@
+locals {
+  container-storage = { for v in var.container-storage : v => v }
+}
+
+
 resource "aws_ecs_task_definition" "my-task" {
   family                   = "${var.ecs-service-name}-task"
   cpu                      = var.cpu
@@ -16,15 +21,18 @@ resource "aws_ecs_task_definition" "my-task" {
     expression = "attribute:ecs.availability-zone in [${var.av-names}]"
   }
 
-  volume {
-    name = "rexray-${var.storage-type}-vol"
-    docker_volume_configuration {
-      scope         = "shared"
-      autoprovision = true
-      driver        = "rexray/${var.storage-type}"
-      driver_opts = {
-        size       = 110
-        volumetype = "gp2"
+  dynamic "volume" {
+    for_each = local.container-storage
+    content {
+      name = "${var.storage-type}-${var.ecs-service-name}-${terraform.workspace}"
+      docker_volume_configuration {
+        scope         = "shared"
+        autoprovision = true
+        driver        = "rexray/${var.storage-type}"
+        driver_opts = {
+          size       = var.allocated-storage
+          volumetype = "gp2"
+        }
       }
     }
   }

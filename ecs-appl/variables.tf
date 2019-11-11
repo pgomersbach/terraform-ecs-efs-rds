@@ -30,7 +30,6 @@ variable "hosted-zone" {}
 
 variable "lb" {
   type = list(string)
-  # default = ["alb"]
   default = []
 }
 
@@ -38,9 +37,18 @@ variable "cpu" {}
 
 variable "memory" {}
 
-variable "container-path" {}
+variable "allocated-storage" {
+  default = 10
+}
 
-variable "storage-type" {}
+variable "container-storage" {
+  type    = list(string)
+  default = []
+}
+
+variable "storage-type" {
+  default = ""
+}
 
 variable "service-sched-strategy" {
   default = "REPLICA"

@@ -1,5 +1,5 @@
 resource "aws_autoscaling_group" "ecs-autoscaling-group" {
-  name                 = var.autoscaling-group-name
+  name                 = "var.autoscaling-group-name-${terraform.workspace}"
   max_size             = var.max-instance-size
   min_size             = var.min-instance-size
   desired_capacity     = var.desired-capacity
@@ -33,9 +33,9 @@ resource "aws_autoscaling_group" "ecs-autoscaling-group" {
 }
 
 resource "aws_autoscaling_policy" "ecs-autoscaling-policy-memory" {
-  name = "memory-reservation"
+  name = "memory-reservation-${terraform.workspace}"
 
-  autoscaling_group_name    = var.autoscaling-group-name
+  autoscaling_group_name    = "var.autoscaling-group-name-${terraform.workspace}"
   depends_on                = [aws_autoscaling_group.ecs-autoscaling-group]
   estimated_instance_warmup = 300
   policy_type               = "TargetTrackingScaling"
@@ -58,7 +58,7 @@ resource "aws_autoscaling_policy" "ecs-autoscaling-policy-memory" {
 
 resource "aws_autoscaling_policy" "ecs-autoscaling-policy-cpu" {
   name = "cpu-reservation"
-  autoscaling_group_name    = var.autoscaling-group-name
+  autoscaling_group_name    = "var.autoscaling-group-name-${terraform.workspace}" 
   depends_on                = [aws_autoscaling_group.ecs-autoscaling-group]
   estimated_instance_warmup = 300
   policy_type               = "TargetTrackingScaling"

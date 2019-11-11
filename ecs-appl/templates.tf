@@ -10,7 +10,7 @@ data "template_file" "task-template" {
     port              = "${var.lb-port}"
     memory            = "${var.memory}"
     cpu               = "${var.cpu}"
-    container-path    = "${var.container-path}"
+    container-path    = "${var.storage-type}-${var.ecs-service-name}-${terraform.workspace}"
     storage-type      = "${var.storage-type}"
   }
 }

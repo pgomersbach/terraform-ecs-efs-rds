@@ -1,6 +1,6 @@
 /* subnet used by rds */
 resource "aws_db_subnet_group" "rds_subnet_group" {
-  name        = "${var.environment}-rds-subnet-group"
+  name        = "rds-subnet-group-${terraform.workspace}"
   description = "RDS subnet group"
   subnet_ids  = var.subnet_ids
   tags        = {
@@ -13,7 +13,7 @@ resource "aws_db_subnet_group" "rds_subnet_group" {
 /* Security Group for resources that want to access the Database */
 resource "aws_security_group" "db_access_sg" {
   vpc_id      = "${var.vpc_id}"
-  name        = "${var.environment}-db-access-sg"
+  name        = "db-access-sg-${terraform.workspace}"
   description = "Allow access to RDS"
   tags        = {
     AplicationName = var.application-name,
@@ -23,8 +23,8 @@ resource "aws_security_group" "db_access_sg" {
 }
 
 resource "aws_security_group" "rds_sg" {
-  name = "${var.environment}-rds-sg"
-  description = "${var.environment} Security Group"
+  name = "rds-sg-${terraform.workspace}"
+  description = "rds Security Group"
   vpc_id = "${var.vpc_id}"
   tags        = {
     AplicationName = var.application-name,
@@ -58,7 +58,7 @@ resource "aws_security_group" "rds_sg" {
 }
 
 resource "aws_db_instance" "rds" {
-  identifier             = "${var.environment}-database"
+  identifier             = "database-${terraform.workspace}"
   allocated_storage      = "${var.allocated_storage}"
   engine                 = "postgres"
   engine_version         = "11.5"

@@ -3,16 +3,15 @@ provider "aws" {
   profile = var.aws-profile-name
 }
 
-/*
 terraform {
   backend "s3" {
     bucket  = "mn-cd-terraform-state"
     key     = "mn-d01-cd"
     region  = "eu-central-1"
     profile = "mn-d01-cd"
+    workspace_key_prefix = "workspace-"
   }
 }
-*/
 
 data "aws_availability_zones" "available" {
   state = "available"
@@ -50,7 +49,7 @@ module "ec2" {
   subnet-ids                = data.aws_subnet_ids.all-sub.ids
   ecs-instance-role-name    = module.iam.ecs-instance-role-name
   ecs-instance-profile-name = module.iam.ecs-instance-profile-name
-  ecs-cluster-name          = "${var.aws-profile-name}-ecs-cluster"
+  ecs-cluster-name          = "${var.aws-profile-name}-ecs-cluster-${terraform.workspace}" # "${var.aws-profile-name}-ecs-cluster"
   ecs-region-name           = var.ecs-region-name
   ecs-key-pair-name         = var.ecs-key-pair-name
 }
@@ -58,7 +57,6 @@ module "ec2" {
 /*
 module "rds" {
   source            = "./rds"
-  environment       = "production"
   allocated_storage = "5"
   database_name     = "${var.production_database_name}"
   database_username = "${var.production_database_username}"
@@ -74,7 +72,7 @@ module "rds" {
 
 module "ecs" {
   source           = "./ecs"
-  ecs-cluster-name = "${var.aws-profile-name}-ecs-cluster"
+  ecs-cluster-name = "${var.aws-profile-name}-ecs-cluster-${terraform.workspace}"
 }
 
 module "elasticsearch" {
@@ -88,14 +86,15 @@ module "elasticsearch" {
   cpu                    = 2048
   deployment-max         = 100
   deployment-min         = 0
-  container-path         = "esdata"
-  storage-type           = "ebs"     # efs | ebs 
+  container-storage      = ["yes"] # ["yes"] | []
+  storage-type           = "ebs" # efs | ebs | ""
+  allocated-storage      = 80
   service-sched-strategy = "REPLICA" # DAEMON | REPLICA
   hosted-zone            = var.hosted-zone
   vpc-id                 = data.aws_vpc.default-vpc.id
   subnet-ids             = data.aws_subnet_ids.all-sub.ids
   av-names               = element(data.aws_availability_zones.available.names,0)
-  aws_ecs_cluster_id     = module.ecs.demo-ecs-cluster_id
+  aws_ecs_cluster_id     = module.ecs.ecs-cluster_id
   ecs-service-role-arn   = module.iam.ecs-service-role-arn
 }
 
@@ -109,15 +108,13 @@ module "kibana" {
   target-lb-url          = "http://${module.elasticsearch.ecs-load-balancer-alias}"
   memory                 = 1024
   cpu                    = 512
-  container-path         = "esdata"
-  storage-type           = "ebs"     # efs | ebs
   service-sched-strategy = "REPLICA" # DAEMON | REPLICA
   desired-count          = 2
   hosted-zone            = var.hosted-zone
   vpc-id                 = data.aws_vpc.default-vpc.id
   subnet-ids             = data.aws_subnet_ids.all-sub.ids
   av-names               = join(", ", data.aws_availability_zones.available.names)
-  aws_ecs_cluster_id     = module.ecs.demo-ecs-cluster_id
+  aws_ecs_cluster_id     = module.ecs.ecs-cluster_id
   ecs-service-role-arn   = module.iam.ecs-service-role-arn
 }
 
@@ -132,15 +129,13 @@ module "apm-server" {
   kibana-lb-url          = "http://${module.kibana.ecs-load-balancer-alias}"
   memory                 = 512
   cpu                    = 256
-  container-path         = "esdata"
-  storage-type           = "ebs"     # efs | ebs
   service-sched-strategy = "REPLICA" # DAEMON | REPLICA
   desired-count          = 2
   hosted-zone            = var.hosted-zone
   vpc-id                 = data.aws_vpc.default-vpc.id
   subnet-ids             = data.aws_subnet_ids.all-sub.ids
   av-names               = join(", ", data.aws_availability_zones.available.names)
-  aws_ecs_cluster_id     = module.ecs.demo-ecs-cluster_id
+  aws_ecs_cluster_id     = module.ecs.ecs-cluster_id
   ecs-service-role-arn   = module.iam.ecs-service-role-arn
 }
 
@@ -156,14 +151,12 @@ module "beats" {
   apm-server-lb-url      = "http://${module.apm-server.ecs-load-balancer-alias}"
   memory                 = 256
   cpu                    = 128
-  container-path         = "esdata"
-  storage-type           = "ebs"     # efs | ebs
   service-sched-strategy = "DAEMON" # DAEMON | REPLICA
   hosted-zone            = var.hosted-zone
   vpc-id                 = data.aws_vpc.default-vpc.id
   subnet-ids             = data.aws_subnet_ids.all-sub.ids
   av-names               = join(", ", data.aws_availability_zones.available.names)
-  aws_ecs_cluster_id     = module.ecs.demo-ecs-cluster_id
+  aws_ecs_cluster_id     = module.ecs.ecs-cluster_id
   ecs-service-role-arn   = module.iam.ecs-service-role-arn
 }
 

@@ -33,7 +33,7 @@ variable "unit-name" {}
 
 variable "autoscaling-group-name" {
   description = "The name for the autoscaling group for the cluster."
-  default     = "demo-ecs-asg"
+  default     = "ecs-asg"
 }
 
 variable "max-instance-size" {
@@ -62,7 +62,7 @@ variable "health-check-grace-period" {
 
 variable "launch-configuration-name" {
   description = "The name for the autoscaling group for the cluster."
-  default     = "demo-ecs-launch-configuration"
+  default     = "ecs-launch-configuration"
 }
 
 variable "instance-type" {

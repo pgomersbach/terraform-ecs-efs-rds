@@ -1,5 +1,5 @@
 resource "aws_iam_role" "ecs-instance-role" {
-  name               = "ecs-instance-role"
+  name               = "ecs-instance-role-${terraform.workspace}"
   path               = "/"
   assume_role_policy = "${data.aws_iam_policy_document.ecs-instance-policy.json}"
 }
@@ -16,7 +16,7 @@ data "aws_iam_policy_document" "ecs-instance-policy" {
 }
 
 resource "aws_iam_policy" "ecs-rexray-policy" {
-  name        = "ecs-rexray-policy"
+  name        = "ecs-rexray-policy-${terraform.workspace}"
   path        = "/"
   description = "My test policy"
 
@@ -76,8 +76,6 @@ resource "aws_iam_role_policy_attachment" "ecs-rexray-role-attachment" {
   role       = "${aws_iam_role.ecs-instance-role.name}"
   policy_arn = "${aws_iam_policy.ecs-rexray-policy.arn}"
 }
-
-
 
 output "ecs-instance-role-name" {
   value = "${aws_iam_role.ecs-instance-role.name}"

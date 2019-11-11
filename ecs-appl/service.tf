@@ -62,7 +62,7 @@ resource "aws_security_group" "lb-security-group" {
 
 resource "aws_alb_target_group" "ecs-target-group" {
   for_each             = local.lb
-  name                 = "tg-${var.ecs-service-name}"
+  name                 = "tg-${var.ecs-service-name}-${terraform.workspace}"
   port                 = var.lb-port
   protocol             = "HTTP"
   vpc_id               = var.vpc-id
@@ -100,8 +100,8 @@ resource "aws_alb_listener" "alb-listener" {
   }
 }
 
-resource "aws_ecs_service" "demo-ecs-service" {
-  name                               = var.ecs-service-name
+resource "aws_ecs_service" "ecs-service" {
+  name                               = "${var.ecs-service-name}-${terraform.workspace}"
   cluster                            = var.aws_ecs_cluster_id
   task_definition                    = aws_ecs_task_definition.my-task.arn
   desired_count                      = var.desired-count
