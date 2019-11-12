@@ -15,6 +15,11 @@ resource "aws_alb" "ecs-load-balancer" {
   }
 }
 
+data "aws_acm_certificate" "cert" {
+  domain   = "*.${var.hosted-zone}"
+  statuses = ["ISSUED"]
+}
+
 data "aws_route53_zone" "selected" {
   name         = "${var.hosted-zone}"
   private_zone = false
@@ -92,8 +97,11 @@ resource "aws_alb_target_group" "ecs-target-group" {
 resource "aws_alb_listener" "alb-listener" {
   for_each          = local.lb
   load_balancer_arn = aws_alb.ecs-load-balancer[each.key].arn
-  port              = 80 # var.lb-port
-  protocol          = "HTTP"
+  port              = 443 # var.lb-port
+  protocol          = "HTTPS"
+  ssl_policy        = "ELBSecurityPolicy-2016-08"
+  certificate_arn   = "${data.aws_acm_certificate.cert.arn}"
+
   default_action {
     target_group_arn = aws_alb_target_group.ecs-target-group["alb"].arn
     type             = "forward"

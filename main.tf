@@ -105,7 +105,7 @@ module "kibana" {
   application-name       = "${var.aws-profile-name}"
   unit-name              = var.unit-name
   lb                     = ["alb"] # ["alb"] |  []
-  target-lb-url          = "http://${module.elasticsearch.ecs-load-balancer-alias}"
+  target-lb-url          = "https://${module.elasticsearch.ecs-load-balancer-alias}"
   memory                 = 1024
   cpu                    = 512
   service-sched-strategy = "REPLICA" # DAEMON | REPLICA
@@ -125,8 +125,8 @@ module "apm-server" {
   application-name       = "${var.aws-profile-name}"
   unit-name              = var.unit-name
   lb                     = ["alb"] # ["alb"] |  []
-  target-lb-url          = "http://${module.elasticsearch.ecs-load-balancer-alias}"
-  kibana-lb-url          = "http://${module.kibana.ecs-load-balancer-alias}"
+  target-lb-url          = "https://${module.elasticsearch.ecs-load-balancer-alias}"
+  kibana-lb-url          = "https://${module.kibana.ecs-load-balancer-alias}"
   memory                 = 512
   cpu                    = 256
   service-sched-strategy = "REPLICA" # DAEMON | REPLICA
@@ -146,9 +146,9 @@ module "beats" {
   application-name       = "${var.aws-profile-name}"
   unit-name              = var.unit-name
   lb                     = [] # ["alb"] |  []
-  target-lb-url          = "http://${module.elasticsearch.ecs-load-balancer-alias}"
-  kibana-lb-url          = "http://${module.kibana.ecs-load-balancer-alias}"
-  apm-server-lb-url      = "http://${module.apm-server.ecs-load-balancer-alias}"
+  target-lb-url          = "https://${module.elasticsearch.ecs-load-balancer-alias}"
+  kibana-lb-url          = "https://${module.kibana.ecs-load-balancer-alias}"
+  apm-server-lb-url      = "https://${module.apm-server.ecs-load-balancer-alias}"
   memory                 = 256
   cpu                    = 128
   service-sched-strategy = "DAEMON" # DAEMON | REPLICA

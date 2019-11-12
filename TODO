@@ -34,12 +34,12 @@
 # es gebruik datavol nakijken
 # add remote state
 # volume size
+# ssl keys toevoegen aan loadbalancer
 update naar tf laatste versie, na v0.12.10 foutmelding
 schematische weergave elk stack
 kibana custom dashboards
 scheduled task toevoegen voor opruimen indices
 redundant es cluster (wacht op name resolving of bedenk een list)
-ssl keys toevoegen aan loadbalancer
 auth toevoegen aan es cluster
 verwijder mount target als destroy optie
 post checks toevoegen

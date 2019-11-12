@@ -39,8 +39,8 @@
         ],
         "environment" : [
             { "name" : "ES_JAVA_OPTS", "value" : "-Xmx128m -Xms128m" },
-            { "name" : "ELASTICSEARCH_HOSTS", "value" : "${target-lb-url}:80" },
-            { "name" : "KIBANA-LB-URL", "value" : "${kibana-lb-url}:80" }
+            { "name" : "ELASTICSEARCH_HOSTS", "value" : "${target-lb-url}:443" },
+            { "name" : "KIBANA-LB-URL", "value" : "${kibana-lb-url}:443" }
         ]
     }
 ]

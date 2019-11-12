@@ -54,8 +54,8 @@
         ],
         "environment": [
             { "name" : "LS_JAVA_OPTS", "value": "-Xmx128m -Xms128m" },
-            { "name" : "ELASTICSEARCH_HOSTS", "value" : "${target-lb-url}:80" },
-            { "name" : "KIBANA-LB-URL", "value" : "${kibana-lb-url}:80" }
+            { "name" : "ELASTICSEARCH_HOSTS", "value" : "${target-lb-url}:443" },
+            { "name" : "KIBANA-LB-URL", "value" : "${kibana-lb-url}:443" }
         ]
     },
     {
@@ -121,8 +121,8 @@
         },
         "environment": [
             { "name" : "LS_JAVA_OPTS", "value": "-Xmx128m -Xms128m" },
-            { "name" : "ELASTICSEARCH_HOSTS", "value" : "${target-lb-url}:80" },
-            { "name" : "KIBANA-LB-URL", "value" : "${kibana-lb-url}:80" }
+            { "name" : "ELASTICSEARCH_HOSTS", "value" : "${target-lb-url}:443" },
+            { "name" : "KIBANA-LB-URL", "value" : "${kibana-lb-url}:443" }
         ]
     },
     {
@@ -170,9 +170,9 @@
         ],
         "environment": [
             { "name" : "LS_JAVA_OPTS", "value": "-Xmx128m -Xms128m" },
-            { "name" : "ELASTICSEARCH_HOSTS", "value" : "${target-lb-url}:80" },
-            { "name" : "KIBANA-LB-URL", "value" : "${kibana-lb-url}:80" },
-            { "name" : "APM-SERVER-LB-URL", "value" : "${apm-server-lb-url}:80" }
+            { "name" : "ELASTICSEARCH_HOSTS", "value" : "${target-lb-url}:443" },
+            { "name" : "KIBANA-LB-URL", "value" : "${kibana-lb-url}:443" },
+            { "name" : "APM-SERVER-LB-URL", "value" : "${apm-server-lb-url}:443" }
         ]
     }
 ]
