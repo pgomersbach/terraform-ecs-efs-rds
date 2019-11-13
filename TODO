@@ -35,7 +35,7 @@
 # add remote state
 # volume size
 # ssl keys toevoegen aan loadbalancer
-apm test client
+# apm test client
 split in modules en verplaats naar aws CodeCommit
 update naar tf laatste versie, na v0.12.10 foutmelding
 schematische weergave elk stack
