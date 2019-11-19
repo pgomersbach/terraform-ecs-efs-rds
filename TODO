@@ -36,6 +36,7 @@
 # volume size
 # ssl keys toevoegen aan loadbalancer
 # apm test client
+bepalen rechten ci/cd
 split in modules en verplaats naar aws CodeCommit
 update naar tf laatste versie, na v0.12.10 foutmelding
 schematische weergave elk stack
@@ -45,6 +46,7 @@ redundant es cluster (wacht op name resolving of bedenk een list)
 auth toevoegen aan es cluster
 verwijder mount target als destroy optie
 post checks toevoegen
+bepalen of awsnet zinvol is
 lockdown voor productie omgevingen
 change README
 documentatie update elk
