@@ -37,7 +37,11 @@
 # ssl keys toevoegen aan loadbalancer
 # apm test client
 bepalen rechten ci/cd
+verplaats tasks van module naar hogere directory
+remote state s3 locks
+verwijder versie info in codecommit naam
 split in modules en verplaats naar aws CodeCommit
+eerste versie deployment pipeline
 update naar tf laatste versie, na v0.12.10 foutmelding
 schematische weergave elk stack
 kibana custom dashboards
