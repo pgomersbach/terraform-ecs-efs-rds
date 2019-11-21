@@ -36,6 +36,7 @@
 # volume size
 # ssl keys toevoegen aan loadbalancer
 # apm test client
+test rds op meerdere workspaces
 bepalen rechten ci/cd
 verplaats tasks van module naar hogere directory
 remote state s3 locks
