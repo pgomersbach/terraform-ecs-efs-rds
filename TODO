@@ -36,13 +36,13 @@
 # volume size
 # ssl keys toevoegen aan loadbalancer
 # apm test client
-test rds op meerdere workspaces
-bepalen rechten ci/cd
+# test rds op meerdere workspaces
+# bepalen rechten ci/cd
+# split in modules en verplaats naar aws CodeCommit
+# eerste versie deployment pipeline
 verplaats tasks van module naar hogere directory
 remote state s3 locks
 verwijder versie info in codecommit naam
-split in modules en verplaats naar aws CodeCommit
-eerste versie deployment pipeline
 update naar tf laatste versie, na v0.12.10 foutmelding
 schematische weergave elk stack
 kibana custom dashboards

@@ -34,11 +34,11 @@ data "aws_subnet_ids" "all-sub" {
 }
 
 module "iam" {
-  source = "./iam"
+  source = "git::codecommit://mn-d01-cd@cd-tfmd-iam"
 }
 
 module "ec2" {
-  source                    = "./ec2"
+  source                    = "git::codecommit://mn-d01-cd@cd-tfmd-ec2"
   max-instance-size         = 9
   min-instance-size         = 3
   desired-capacity          = 3
@@ -54,9 +54,9 @@ module "ec2" {
   ecs-key-pair-name         = var.ecs-key-pair-name
 }
 
-/*
 module "rds" {
-  source            = "./rds"
+  source            = "git::codecommit://mn-d01-cd@cd-tfmd-rds"
+  # source = "./rds"
   allocated_storage = "5"
   database_name     = "${var.production_database_name}"
   database_username = "${var.production_database_username}"
@@ -68,15 +68,14 @@ module "rds" {
   vpc_id            = data.aws_vpc.default-vpc.id
   instance_class    = "db.t2.micro"
 }
-*/
 
 module "ecs" {
-  source           = "./ecs"
+  source           = "git::codecommit://mn-d01-cd@cd-tfmd-ecs"
   ecs-cluster-name = "${var.aws-profile-name}-ecs-cluster-${terraform.workspace}"
 }
 
 module "elasticsearch" {
-  source                 = "./ecs-appl"
+  source                 = "git::codecommit://mn-d01-cd@cd-tfmd-ecs-appl"
   lb-port                = 9200
   ecs-service-name       = "elasticsearch"
   application-name       = "${var.aws-profile-name}"
@@ -99,7 +98,7 @@ module "elasticsearch" {
 }
 
 module "kibana" {
-  source                 = "./ecs-appl"
+  source                 = "git::codecommit://mn-d01-cd@cd-tfmd-ecs-appl"
   lb-port                = 5601
   ecs-service-name       = "kibana"
   application-name       = "${var.aws-profile-name}"
@@ -119,7 +118,7 @@ module "kibana" {
 }
 
 module "apm-server" {
-  source                 = "./ecs-appl"
+  source                 = "git::codecommit://mn-d01-cd@cd-tfmd-ecs-appl"
   lb-port                = 8200
   ecs-service-name       = "apm-server"
   application-name       = "${var.aws-profile-name}"
@@ -140,7 +139,7 @@ module "apm-server" {
 }
 
 module "beats" {
-  source                 = "./ecs-appl"
+  source                 = "git::codecommit://mn-d01-cd@cd-tfmd-ecs-appl"
   lb-port                = 5601
   ecs-service-name       = "beats"
   application-name       = "${var.aws-profile-name}"
