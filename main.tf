@@ -61,6 +61,7 @@ module "rds" {
   database_name     = "${var.production_database_name}"
   database_username = "${var.production_database_username}"
   database_password = "${var.production_database_password}"
+  engine_version    = "11.5"
   multi_az          = true
   application-name  = "${var.aws-profile-name}-db-cluster"
   unit-name         = var.unit-name

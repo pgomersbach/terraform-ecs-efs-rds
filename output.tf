@@ -1,3 +1,7 @@
+output "rds-endpoint" {
+  value = module.rds.rds_endpoint
+}
+
 output "elasticsearch-load-balancer-alias" {
   value = "https://${module.elasticsearch.ecs-load-balancer-alias}"
 }
